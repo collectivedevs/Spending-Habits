@@ -5,7 +5,7 @@ const admin = require("firebase-admin");
 const { firebaseServiceAccount } = require("../util/config");
 admin.initializeApp({
   credential: admin.credential.cert(firebaseServiceAccount),
-  storageBucket: "gs://nakama-treehouse.appspot.com"
+  storageBucket: "gs://spending-habits.appspot.com"
 });
 
 const db = admin.firestore();
