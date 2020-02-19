@@ -4,7 +4,7 @@ const firebase = require("firebase");
 const { firebaseConfig } = require("../util/config");
 firebase.initializeApp(firebaseConfig);
 
-const { validateSignupData } = require("../util/validators");
+const { validateSignupData, validateLoginData } = require("../util/validators");
 
 /** Signs up a user. */
 
