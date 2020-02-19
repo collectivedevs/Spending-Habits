@@ -4,7 +4,7 @@ const firebase = require("firebase");
 const { firebaseConfig } = require("../util/config");
 firebase.initializeApp(firebaseConfig);
 
-const { validateSignupData } = require("../util/validators");
+const { validateSignupData, validateLoginData } = require("../util/validators");
 
 /** Signs up a user. */
 
@@ -70,3 +70,34 @@ exports.signup = (req, res) => {
     });
 };
 
+/** Logs user in. */
+
+exports.login = (req, res) => {
+  const user = {
+    email: req.body.email,
+    password: req.body.password
+  };
+
+  const { valid, errors } = validateLoginData(user);
+
+  if (!valid) return res.status(400).json(errors);
+
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(user.email, user.password)
+    .then(data => {
+      return data.user.getIdToken();
+    })
+    .then(token => {
+      return res.json({ token });
+    })
+    .catch(err => {
+      console.error(err);
+      // Can issue error messages based on the error code given
+      //   err.code === "auth/wrong-password" OR err.code === "auth/user-not-found" OR
+      //   err.code === "auth/invalid-email"
+      return res
+        .status(403)
+        .json({ general: "Wrong credentials, please try again" });
+    });
+};
