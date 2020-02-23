@@ -1,7 +1,5 @@
-const { firebaseConfig, firebaseServiceAccount } = require("../util/config");
-
 const test = require('firebase-functions-test')({
-    databaseURL: firebaseConfig.databaseURL,
-    storageBucket: firebaseConfig.storageBucket,
-    projectId: firebaseConfig.projectId,
-  }, firebaseServiceAccount);
+  databaseURL: 'https://my-project.firebaseio.com',
+  storageBucket: 'my-project.appspot.com',
+  projectId: 'my-project',
+}, 'path/to/serviceAccountKey.json');
