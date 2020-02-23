@@ -9,8 +9,7 @@ cache:
   directories:
     - node_modules
     - ~/.cache
-install:
-  - npm i
+
 stages:
   - name: pull-request
     if: type = pull_request
@@ -20,6 +19,6 @@ jobs:
     - stage: pull-request
 
       script:
-        - npm i
         - cd functions
+        - npm i
         - npm test
