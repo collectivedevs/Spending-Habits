@@ -10,6 +10,7 @@ cache:
     - node_modules
     - ~/.cache
 install:
+  - cd functions
   - npm i
 stages:
   - name: pull-request
