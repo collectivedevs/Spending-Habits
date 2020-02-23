@@ -67,5 +67,3 @@ node_modules/
 # Firebase Keys
 functions/util/config.js
 
-# Travis CI
-.travis.yml
