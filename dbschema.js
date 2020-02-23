@@ -4,6 +4,7 @@ let db = {
       {
         userId: "fdufhw343424wefw23",
         email: "user@gmail.com",
+        username: "john03",
         firstName: "John",
         lastName: "Doe",
         createdAt: "2019-03-15T11:46:01.018Z",

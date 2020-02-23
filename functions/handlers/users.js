@@ -9,11 +9,16 @@ const { validateSignupData } = require("../util/validators");
 /** Signs up a user. */
 
 exports.signup = (req, res) => {
+
+  // The data the sign up page takes 
   const newUser = {
+    username: req.body.username,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
-    handle: req.body.handle
+    
   };
 
   const { valid, errors } = validateSignupData(newUser);
@@ -25,11 +30,11 @@ exports.signup = (req, res) => {
   // Validate Data
   let token, userId;
 
-  db.doc(`/users/${newUser.handle}`)
+  db.doc(`/users/${newUser.username}`)
     .get()
     .then(doc => {
       if (doc.exists) {
-        return res.status(400).json({ handle: "this handle is already taken" });
+        return res.status(400).json({ username: "this username is already taken" });
       } else {
         // This creates the user account
         return firebase
@@ -47,13 +52,17 @@ exports.signup = (req, res) => {
       token = idToken;
 
       const userCredentials = {
-        handle: newUser.handle,
+        username: newUser.username,
+        firstName:  newUser.firstName,
+        lastName: newUser.lastName,
+        budget: 0.00,
+        quote: "Self Motivate Your Own Change",
         email: newUser.email,
         createdAt: new Date().toISOString(),
         imageUrl: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
         userId
       };
-      return db.doc(`/users/${newUser.handle}`).set(userCredentials);
+      return db.doc(`/users/${newUser.username}`).set(userCredentials);
     })
     .then(() => {
       return res.status(201).json({ token });

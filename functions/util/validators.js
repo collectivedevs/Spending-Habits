@@ -29,7 +29,11 @@ const isEmpty = string => {
     if (data.password !== data.confirmPassword)
       errors.confirmPassword = "Passwords must match";
   
-    if (isEmpty(data.handle)) errors.handle = "Must not be empty";
+    if (isEmpty(data.username)) errors.username = "Must not be empty";
+
+    if (isEmpty(data.firstName)) errors.firstName = "Must not be empty";
+
+    if (isEmpty(data.lastName)) errors.lastName = "Must not be empty";
   
     return {
       errors,
