@@ -10,7 +10,6 @@ cache:
     - node_modules
     - ~/.cache
 install:
-  - cd functions
   - npm i
 stages:
   - name: pull-request
@@ -21,5 +20,6 @@ jobs:
     - stage: pull-request
 
       script:
+        - npm i
         - cd functions
         - npm test
