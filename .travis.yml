@@ -1,6 +1,24 @@
 language: node_js
 node_js: 
-  - "stable"
+  - "lts/*"
+
+dist: ubuntu:latest
+
 cache:
+  npm: true
   directories:
-    - "node_modules"
+    - node_modules
+    - ~/.cache
+
+stages:
+  - name: pull-request
+    if: type = pull_request
+
+jobs:
+  include:
+    - stage: pull-request
+
+      script:
+        - cd functions
+        - npm i
+        - npm test
