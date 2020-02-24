@@ -5,7 +5,12 @@ const app = require("express")();
 const cors = require("cors");
 app.use(cors());
 
-const { signup, login, addUserDetails } = require("./handlers/users");
+const {
+  signup,
+  login,
+  addUserDetails,
+  uploadImage
+} = require("./handlers/users");
 
 const FBAuth = require("./util/fbAuth");
 
@@ -13,6 +18,6 @@ const FBAuth = require("./util/fbAuth");
 app.post("/signup", signup);
 app.post("/login", login);
 app.post("/user", FBAuth, addUserDetails);
+app.post("/user/image", FBAuth, uploadImage);
 
 exports.api = functions.https.onRequest(app);
-
