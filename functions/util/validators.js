@@ -54,5 +54,16 @@ exports.validateLoginData = data => {
     valid: Object.keys(errors).length === 0 ? true : false
   };
 };
+
+/** Validates User Details. */
+
+exports.reduceUserDetails = data => {
+  let userDetails = {};
+
+  if (!isEmpty(data.quote.trim())) userDetails.quote = data.quote;
+  if (!isNaN(data.budget.trim())) userDetails.budget = parseInt(data.budget);
+
+  return userDetails;
+};
   
   
