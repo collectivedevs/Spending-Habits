@@ -6,6 +6,13 @@ const cors = require("cors");
 app.use(cors());
 
 const {
+  getAllTransactions,
+  createTransaction,
+  getTransaction,
+  deleteTransaction
+} = require("./handlers/transactions");
+
+const {
   signup,
   login,
   addUserDetails,
@@ -13,6 +20,12 @@ const {
 } = require("./handlers/users");
 
 const FBAuth = require("./util/fbAuth");
+
+// Transaction Routes
+app.get("/transactions", FBAuth, getAllTransactions);
+app.post("/transactions", FBAuth, createTransaction);
+app.get("/transactions/:transactionId", FBAuth, getTransaction);
+app.delete("/transactions/:transactionId", FBAuth, deleteTransaction);
 
 // User Routes
 app.post("/signup", signup);

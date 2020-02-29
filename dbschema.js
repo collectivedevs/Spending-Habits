@@ -19,7 +19,8 @@ let db = {
         id: "djdvwoufh23jb20",
         type: "Transportation",
         cost: 2,
-        createdAt: "2019-03-15T11:46:01.018Z"
+        createdAt: "2019-03-15T11:46:01.018Z",
+        username: "john03"
       }
     ],
     summary: [
