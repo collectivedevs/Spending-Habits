@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import CustomButton from "../../util/customButton";
-import CreatePost from "../post/CreatePost";
-import Notifications from "./Notifications";
 
 // MUI Imports
 import AppBar from "@material-ui/core/AppBar";
@@ -22,14 +20,13 @@ class Navbar extends Component {
         <Toolbar className="nav-container">
           {authenticated ? (
             <Fragment>
-              <CreatePost />
+          
               <Link to="/">
                 <CustomButton tip="Home">
                   <HomeIcon />
                 </CustomButton>
               </Link>
 
-              <Notifications />
             </Fragment>
           ) : (
             <Fragment>

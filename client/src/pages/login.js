@@ -10,9 +10,11 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-// Redux Imports
-import { connect } from "react-redux";
-import { loginUser } from "../redux/actions/userActions";
+// Context
+import { userContext } from "../contexts/userContext";
+
+// Actions
+import { loginUser } from "../actions/userAction";
 
 const styles = theme => ({
   // We use the styles object in the theme which holds all the styling except palette - https://stackoverflow.com/questions/56897838/getting-a-error-typeerror-color-charat-is-not-a-function-in-c-node-modul
@@ -32,21 +34,28 @@ class login extends Component {
     };
   }
 
+  // This allows you to use 'this.context'
+  static contextType = userContext;
+
+  // TO-DO REFACTOR TO WORK WITH CONTEXT API
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({ errors: nextProps.UI.errors });
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.state.UI.errors });
     }
   }
 
   handleSubmit = event => {
     event.preventDefault();
-
+    console.log("handleSubmit called");
     const userData = {
       email: this.state.email,
       password: this.state.password
     };
-
-    this.props.loginUser(userData, this.props.history);
+    const [ {reducertwo:{loading}}, dispatch ] = this.context;
+    console.log("dispatch has " + JSON.stringify(dispatch));
+    loginUser(userData, this.props.history)(dispatch);
+    console.log("loginUser called");
   };
 
   handleChange = event => {
@@ -56,10 +65,10 @@ class login extends Component {
   };
 
   render() {
-    const {
-      classes,
-      UI: { loading }
-    } = this.props;
+    // classes is for Material Icons to do styling
+    const { classes } = this.props;
+    const [ {reducertwo:{loading}} ] = this.context;
+    console.log(`loading is ${loading}`);
     const { errors } = this.state;
     return (
       <Grid container className={classes.form}>
@@ -136,16 +145,9 @@ login.propTypes = {
 };
 
 // This lets redux know the data that this page would need from state
-const mapStateToProps = state => ({
-  user: state.user,
-  UI: state.UI
-});
+// const mapStateToProps = state => ({
+//   user: state.user,
+//   UI: state.UI
+// });
 
-const mapActionsToProps = {
-  loginUser
-};
-
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(withStyles(styles)(login));
+export default withStyles(styles)(login);
