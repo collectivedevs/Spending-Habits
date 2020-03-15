@@ -20,7 +20,7 @@ class Navbar extends Component {
         <Toolbar className="nav-container">
           {authenticated ? (
             <Fragment>
-          
+
               <Link to="/">
                 <CustomButton tip="Home">
                   <HomeIcon />
@@ -47,9 +47,11 @@ class Navbar extends Component {
   }
 }
 
+
 // Navbar.propTypes = {
 //   authenticated: PropTypes.bool.isRequired
 // };
+
 
 
 export default Navbar;

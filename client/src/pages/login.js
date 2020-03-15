@@ -23,6 +23,7 @@ const styles = theme => ({
 const Link = require("react-router-dom").Link;
 
 class login extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -68,6 +69,7 @@ class login extends Component {
       email: this.state.email,
       password: this.state.password
     };
+
     const [ {reducertwo:{loading}}, dispatch ] = this.context;
     
     loginUser(userData, this.props.history, dispatch);
@@ -81,6 +83,7 @@ class login extends Component {
   };
 
   render() {
+
     // classes is for Material Icons to do styling
     const { classes } = this.props;
     const [ {reducertwo:{loading}} ] = this.context;
