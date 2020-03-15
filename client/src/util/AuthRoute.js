@@ -19,8 +19,8 @@ AuthRoute.propTypes = {
 };
 
 // TO-DO REFACTOR TO WORK WITH CONTEXT API
-const mapStateToProps = state => ({
-  authenticated: state.user.authenticated
-});
+// const mapStateToProps = state => ({
+//   authenticated: state.user.authenticated
+// });
 
 export default AuthRoute;

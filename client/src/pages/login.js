@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
-import PropTypes from "prop-types";
 import AppIcon from "../images/logo192.png";
 
 // MUI Imports
@@ -24,12 +23,11 @@ const styles = theme => ({
 const Link = require("react-router-dom").Link;
 
 class login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: "",
       password: "",
-
       errors: {}
     };
   }
@@ -37,25 +35,43 @@ class login extends Component {
   // This allows you to use 'this.context'
   static contextType = userContext;
 
-  // TO-DO REFACTOR TO WORK WITH CONTEXT API
+  static getDerivedStateFromProps(nextProps, prevState){
+      
+    if(nextProps.errors!==prevState.errors){
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.state.UI.errors });
-    }
-  }
+      return { errors: prevState.errors};
+   }
+   else return null;
+ }
+ 
+ componentDidUpdate(prevProps, prevState) {
+   
+  const [ {reducertwo:{errors}} ] = this.context;
+  
+  if(JSON.stringify(this.state.errors) !== JSON.stringify(errors) && errors !== null){
+       
+    // Perform some operation here
+     this.setState(prevState => ({
+         ...prevState,
+        errors: {
+            email: errors.email,
+            password: errors.password
+        }
+     }));
+   }
+ }
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log("handleSubmit called");
+   
     const userData = {
       email: this.state.email,
       password: this.state.password
     };
     const [ {reducertwo:{loading}}, dispatch ] = this.context;
-    console.log("dispatch has " + JSON.stringify(dispatch));
-    loginUser(userData, this.props.history)(dispatch);
-    console.log("loginUser called");
+    
+    loginUser(userData, this.props.history, dispatch);
+   
   };
 
   handleChange = event => {
@@ -68,8 +84,8 @@ class login extends Component {
     // classes is for Material Icons to do styling
     const { classes } = this.props;
     const [ {reducertwo:{loading}} ] = this.context;
-    console.log(`loading is ${loading}`);
-    const { errors } = this.state;
+    const errors = this.state.errors;
+   
     return (
       <Grid container className={classes.form}>
         <Grid item sm />
@@ -135,19 +151,5 @@ class login extends Component {
     );
   }
 }
-
-// You can use prop-types to document the intended types of properties passed to components.
-login.propTypes = {
-  classes: PropTypes.object.isRequired,
-  loginUser: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  UI: PropTypes.object.isRequired
-};
-
-// This lets redux know the data that this page would need from state
-// const mapStateToProps = state => ({
-//   user: state.user,
-//   UI: state.UI
-// });
 
 export default withStyles(styles)(login);

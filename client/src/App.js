@@ -37,7 +37,7 @@ const token = localStorage.FBIdToken;
 
 if (token) {
   
-  const [ state, dispatch ] = useContext(userContext);
+  const [ dispatch ] = useContext(userContext);
 
   // DecodedToken stores when the token will expire along with details about the user and the token
   const decodedToken = jwtDecode(token);

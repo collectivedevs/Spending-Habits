@@ -47,9 +47,9 @@ class Navbar extends Component {
   }
 }
 
-Navbar.propTypes = {
-  authenticated: PropTypes.bool.isRequired
-};
+// Navbar.propTypes = {
+//   authenticated: PropTypes.bool.isRequired
+// };
 
 
 export default Navbar;

@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
 import axios from "axios";
 import {LOADING_UI, CLEAR_ERRORS, SET_ERRORS, SET_USER, LOADING_USER, SET_UNAUTHENTICATED} from "../types";
 
-export const loginUser = (userData, history) => dispatch => {
+export const loginUser = (userData, history, dispatch) => {
   
   dispatch({ type: LOADING_UI });
-  console.log("passed dispatch func");
+  
   axios
     .post("/login", userData)
     .then(res => {
@@ -13,7 +12,6 @@ export const loginUser = (userData, history) => dispatch => {
       getUserData();
       dispatch({ type: CLEAR_ERRORS });
 
-      console.log("went inside axios funct");
       // This is a method of pushing state and redirecting to it
       history.push("/");
     })
@@ -22,7 +20,6 @@ export const loginUser = (userData, history) => dispatch => {
         type: SET_ERRORS,
         payload: err.response.data
       });
-      console.log("went in err");
     });
 };
 
