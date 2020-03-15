@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
-import PropTypes from "prop-types";
 import AppIcon from "../images/logo192.png";
 
 // MUI Imports
@@ -10,9 +9,11 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-// Redux Imports
-import { connect } from "react-redux";
-import { loginUser } from "../redux/actions/userActions";
+// Context
+import { userContext } from "../contexts/userContext";
+
+// Actions
+import { loginUser } from "../actions/userAction";
 
 const styles = theme => ({
   // We use the styles object in the theme which holds all the styling except palette - https://stackoverflow.com/questions/56897838/getting-a-error-typeerror-color-charat-is-not-a-function-in-c-node-modul
@@ -22,31 +23,57 @@ const styles = theme => ({
 const Link = require("react-router-dom").Link;
 
 class login extends Component {
-  constructor() {
-    super();
+
+  constructor(props) {
+    super(props);
     this.state = {
       email: "",
       password: "",
-
       errors: {}
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({ errors: nextProps.UI.errors });
-    }
-  }
+  // This allows you to use 'this.context'
+  static contextType = userContext;
+
+  static getDerivedStateFromProps(nextProps, prevState){
+      
+    if(nextProps.errors!==prevState.errors){
+
+      return { errors: prevState.errors};
+   }
+   else return null;
+ }
+ 
+ componentDidUpdate(prevProps, prevState) {
+   
+  const [ {reducertwo:{errors}} ] = this.context;
+  
+  if(JSON.stringify(this.state.errors) !== JSON.stringify(errors) && errors !== null){
+       
+    // Perform some operation here
+     this.setState(prevState => ({
+         ...prevState,
+        errors: {
+            email: errors.email,
+            password: errors.password
+        }
+     }));
+   }
+ }
 
   handleSubmit = event => {
     event.preventDefault();
-
+   
     const userData = {
       email: this.state.email,
       password: this.state.password
     };
 
-    this.props.loginUser(userData, this.props.history);
+    const [ {reducertwo:{loading}}, dispatch ] = this.context;
+    
+    loginUser(userData, this.props.history, dispatch);
+   
   };
 
   handleChange = event => {
@@ -56,11 +83,12 @@ class login extends Component {
   };
 
   render() {
-    const {
-      classes,
-      UI: { loading }
-    } = this.props;
-    const { errors } = this.state;
+
+    // classes is for Material Icons to do styling
+    const { classes } = this.props;
+    const [ {reducertwo:{loading}} ] = this.context;
+    const errors = this.state.errors;
+   
     return (
       <Grid container className={classes.form}>
         <Grid item sm />
@@ -127,25 +155,4 @@ class login extends Component {
   }
 }
 
-// You can use prop-types to document the intended types of properties passed to components.
-login.propTypes = {
-  classes: PropTypes.object.isRequired,
-  loginUser: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  UI: PropTypes.object.isRequired
-};
-
-// This lets redux know the data that this page would need from state
-const mapStateToProps = state => ({
-  user: state.user,
-  UI: state.UI
-});
-
-const mapActionsToProps = {
-  loginUser
-};
-
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(withStyles(styles)(login));
+export default withStyles(styles)(login);
