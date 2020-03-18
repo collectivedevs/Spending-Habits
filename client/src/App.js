@@ -16,6 +16,7 @@ import home from "./pages/home";
 import login from "./pages/login";
 import signup from "./pages/signup";
 
+
 // Contexts
 import { Provider , userContext} from './contexts/userContext';
 
@@ -55,6 +56,7 @@ if (token) {
 
 // TO-DO REFACTOR TO WORK WITH CONTEXT API
 function App() {
+
   const [rootReducerCombined, initialStateCombined] = combineReducers({ user: [userReducer, userInitState], ui: [uiReducer, uiInitState] });
   const useCombinedState = useReducer(rootReducerCombined, initialStateCombined);
     return (
