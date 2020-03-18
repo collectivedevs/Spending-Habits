@@ -14,6 +14,7 @@ import AuthRoute from "./util/AuthRoute";
 // Pages
 import home from "./pages/home";
 import login from "./pages/login";
+import signup from "./pages/signup";
 
 // Contexts
 import { Provider , userContext} from './contexts/userContext';
@@ -54,7 +55,7 @@ if (token) {
 
 // TO-DO REFACTOR TO WORK WITH CONTEXT API
 function App() {
-  const [rootReducerCombined, initialStateCombined] = combineReducers({ reducerOne: [userReducer, userInitState], reducertwo: [uiReducer, uiInitState] });
+  const [rootReducerCombined, initialStateCombined] = combineReducers({ user: [userReducer, userInitState], ui: [uiReducer, uiInitState] });
   const useCombinedState = useReducer(rootReducerCombined, initialStateCombined);
     return (
       <Provider value={useCombinedState}>
@@ -65,6 +66,7 @@ function App() {
               <Switch>
                 <Route exact path="/" component={home} />
                 <AuthRoute exact path="/login" component={login} />
+                <AuthRoute exact path="/signup" component={signup} />
               </Switch>
             </div>
           </Router>

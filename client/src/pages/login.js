@@ -47,7 +47,7 @@ class login extends Component {
  
  componentDidUpdate(prevProps, prevState) {
    
-  const [ {reducertwo:{errors}} ] = this.context;
+  const [ {ui:{errors}} ] = this.context;
   
   if(JSON.stringify(this.state.errors) !== JSON.stringify(errors) && errors !== null){
        
@@ -70,7 +70,7 @@ class login extends Component {
       password: this.state.password
     };
 
-    const [ {reducertwo:{loading}}, dispatch ] = this.context;
+    const [ {ui:{loading}}, dispatch ] = this.context;
     
     loginUser(userData, this.props.history, dispatch);
    
@@ -86,7 +86,7 @@ class login extends Component {
 
     // classes is for Material Icons to do styling
     const { classes } = this.props;
-    const [ {reducertwo:{loading}} ] = this.context;
+    const [ {ui:{loading}} ] = this.context;
     const errors = this.state.errors;
    
     return (

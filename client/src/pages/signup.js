@@ -29,7 +29,9 @@ class signup extends Component {
       email: "",
       password: "",
       confirmPassword: "",
-      handle: "",
+      username: "",
+      firstName: "",
+      lastName: "",
       errors: {}
     };
   }
@@ -48,8 +50,7 @@ class signup extends Component {
  
  componentDidUpdate(prevProps, prevState) {
    
-  const [ {reducertwo:{errors}} ] = this.context;
-  
+  const [ {ui:{errors}} ] = this.context;
   if(JSON.stringify(this.state.errors) !== JSON.stringify(errors) && errors !== null){
        
     // Perform some operation here
@@ -57,17 +58,15 @@ class signup extends Component {
          ...prevState,
         errors: {
             email: errors.email,
-            password: errors.password
+            password: errors.password,
+            confirmPassword: errors.confirmPassword,
+            username: errors.username,
+            firstName: errors.firstName,
+            lastName: errors.lastName
         }
      }));
    }
  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({ errors: nextProps.UI.errors });
-    }
-  }
 
   handleSubmit = event => {
     event.preventDefault();
@@ -79,9 +78,11 @@ class signup extends Component {
       email: this.state.email,
       password: this.state.password,
       confirmPassword: this.state.confirmPassword,
-      handle: this.state.handle
+      username: this.state.username,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName
     };
-    const [ {reducertwo:{loading}}, dispatch ] = this.context;
+    const [ {ui:{loading}}, dispatch ] = this.context;
     signupUser(newUserData, this.props.history, dispatch);
   };
 
@@ -95,7 +96,7 @@ class signup extends Component {
   
     // classes is for Material Icons to do styling
     const { classes } = this.props;
-    const [ {reducertwo:{loading}} ] = this.context;
+    const [ {ui:{loading}} ] = this.context;
     const errors = this.state.errors;
 
     return (
@@ -107,6 +108,49 @@ class signup extends Component {
             Sign Up
           </Typography>
           <form noValidate onSubmit={this.handleSubmit}>
+
+          <TextField
+              color="secondary"
+              id="username"
+              name="username"
+              type="text"
+              label="Username"
+              className={classes.TextField}
+              helperText={errors.username}
+              error={errors.username ? true : false}
+              value={this.state.username}
+              onChange={this.handleChange}
+              fullWidth
+            />
+
+            <TextField
+              color="secondary"
+              id="firstName"
+              name="firstName"
+              type="text"
+              label="first name"
+              className={classes.TextField}
+              helperText={errors.firstName}
+              error={errors.firstName ? true : false}
+              value={this.state.firstName}
+              onChange={this.handleChange}
+              fullWidth
+            />
+
+            <TextField
+              color="secondary"
+              id="lastName"
+              name="lastName"
+              type="text"
+              label="last name"
+              className={classes.TextField}
+              helperText={errors.lastName}
+              error={errors.lastName ? true : false}
+              value={this.state.lastName}
+              onChange={this.handleChange}
+              fullWidth
+            />
+
             <TextField
               color="secondary"
               id="email"
@@ -144,20 +188,6 @@ class signup extends Component {
               helperText={errors.confirmPassword}
               error={errors.confirmPassword ? true : false}
               value={this.state.confirmPassword}
-              onChange={this.handleChange}
-              fullWidth
-            />
-
-            <TextField
-              color="secondary"
-              id="handle"
-              name="handle"
-              type="text"
-              label="Handle"
-              className={classes.TextField}
-              helperText={errors.handle}
-              error={errors.handle ? true : false}
-              value={this.state.handle}
               onChange={this.handleChange}
               fullWidth
             />
