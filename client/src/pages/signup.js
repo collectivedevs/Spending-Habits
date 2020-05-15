@@ -13,7 +13,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { userContext } from "../contexts/userContext";
 
 // Actions
-import { loginUser } from "../actions/userAction";
+import { signupUser } from "../actions/userAction";
 
 const styles = theme => ({
   // We use the styles object in the theme which holds all the styling except palette - https://stackoverflow.com/questions/56897838/getting-a-error-typeerror-color-charat-is-not-a-function-in-c-node-modul
@@ -22,13 +22,16 @@ const styles = theme => ({
 
 const Link = require("react-router-dom").Link;
 
-class login extends Component {
-
+class signup extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
       password: "",
+      confirmPassword: "",
+      username: "",
+      firstName: "",
+      lastName: "",
       errors: {}
     };
   }
@@ -48,7 +51,6 @@ class login extends Component {
  componentDidUpdate(prevProps, prevState) {
    
   const [ {ui:{errors}} ] = this.context;
-  
   if(JSON.stringify(this.state.errors) !== JSON.stringify(errors) && errors !== null){
        
     // Perform some operation here
@@ -56,7 +58,11 @@ class login extends Component {
          ...prevState,
         errors: {
             email: errors.email,
-            password: errors.password
+            password: errors.password,
+            confirmPassword: errors.confirmPassword,
+            username: errors.username,
+            firstName: errors.firstName,
+            lastName: errors.lastName
         }
      }));
    }
@@ -64,16 +70,20 @@ class login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-   
-    const userData = {
-      email: this.state.email,
-      password: this.state.password
-    };
+    this.setState({
+      loading: true
+    });
 
+    const newUserData = {
+      email: this.state.email,
+      password: this.state.password,
+      confirmPassword: this.state.confirmPassword,
+      username: this.state.username,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName
+    };
     const [ {ui:{loading}}, dispatch ] = this.context;
-    
-    loginUser(userData, this.props.history, dispatch);
-   
+    signupUser(newUserData, this.props.history, dispatch);
   };
 
   handleChange = event => {
@@ -83,21 +93,64 @@ class login extends Component {
   };
 
   render() {
-
+  
     // classes is for Material Icons to do styling
     const { classes } = this.props;
     const [ {ui:{loading}} ] = this.context;
     const errors = this.state.errors;
-   
+
     return (
       <Grid container className={classes.form}>
         <Grid item sm />
         <Grid item sm>
           <img src={AppIcon} alt="Logo" className={classes.logo} />
           <Typography variant="h2" className={classes.pageTitle}>
-            Login
+            Sign Up
           </Typography>
           <form noValidate onSubmit={this.handleSubmit}>
+
+          <TextField
+              color="secondary"
+              id="username"
+              name="username"
+              type="text"
+              label="Username"
+              className={classes.TextField}
+              helperText={errors.username}
+              error={errors.username ? true : false}
+              value={this.state.username}
+              onChange={this.handleChange}
+              fullWidth
+            />
+
+            <TextField
+              color="secondary"
+              id="firstName"
+              name="firstName"
+              type="text"
+              label="first name"
+              className={classes.TextField}
+              helperText={errors.firstName}
+              error={errors.firstName ? true : false}
+              value={this.state.firstName}
+              onChange={this.handleChange}
+              fullWidth
+            />
+
+            <TextField
+              color="secondary"
+              id="lastName"
+              name="lastName"
+              type="text"
+              label="last name"
+              className={classes.TextField}
+              helperText={errors.lastName}
+              error={errors.lastName ? true : false}
+              value={this.state.lastName}
+              onChange={this.handleChange}
+              fullWidth
+            />
+
             <TextField
               color="secondary"
               id="email"
@@ -125,6 +178,20 @@ class login extends Component {
               fullWidth
             />
 
+            <TextField
+              color="secondary"
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              label="Confirm Password"
+              className={classes.TextField}
+              helperText={errors.confirmPassword}
+              error={errors.confirmPassword ? true : false}
+              value={this.state.confirmPassword}
+              onChange={this.handleChange}
+              fullWidth
+            />
+
             {errors.general && (
               <Typography variant="body2" className={classes.customError}>
                 {errors.general}
@@ -138,14 +205,14 @@ class login extends Component {
               className={classes.button}
               disabled={loading}
             >
-              Login
+              Signup
               {loading && (
                 <CircularProgress size={30} className={classes.progress} />
               )}
             </Button>
             <br></br>
             <small>
-              dont have an account ? Sign up <Link to="/signup">here</Link>
+              Already have an account ? log in <Link to="/login">here</Link>
             </small>
           </form>
         </Grid>
@@ -155,4 +222,4 @@ class login extends Component {
   }
 }
 
-export default withStyles(styles)(login);
+export default withStyles(styles)(signup);
