@@ -1,13 +1,11 @@
 import React from 'react';
 import './App.css';
-import TopNav from './components/layouts/TopNav';
-import Home from './pages/Home'
+import Landing from './pages/Landing'
 
 function App() {
     return (
         <div className="App">
-            <TopNav />
-            <Home />
+            <Landing />
         </div>
     );
 }

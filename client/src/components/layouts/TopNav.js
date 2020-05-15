@@ -1,215 +1,96 @@
-import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
-import {
-    AppBar, Toolbar, IconButton, Typography, InputBase, Badge, MenuItem, Menu
-} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import MenuIcon from '../svgicons/MenuIcon'
+import signinicon from '../../media/signinicon.svg'
 
 const useStyles = makeStyles(theme => ({
-    grow: {
-        flexGrow: 1,
+    top_nav: {
+        position: 'absolute',
+        height: '60px',
+        left: '0px',
+        right: '0px',
+        top: '0px',
+        background: 'linear-gradient(90deg, #00A3FF 0%, #D20480 100%)',
+        zIndex: 3,
+        boxShadow: '0px 3.78333px 3.78333px rgba(0, 0, 0, 0.25)',
     },
-    menuButton: {
-        marginRight: theme.spacing(2),
+    top_nav_wrapper: {
+        maxWidth: '97.22%',
+        margin: '0 auto',
+    },
+    menu: {
+        position: 'absolute',
+        width: '50px',
+        height: '50px',
+        left: '16px',
+        top: '6px',
+        borderRadius: '50%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        "&:hover": {
+            backgroundColor: 'rgba(0, 0, 0, 0.07)',
+            cursor: 'pointer',
+            transition: '0.2s',
+        },
     },
     title: {
-        display: 'none',
-        [theme.breakpoints.up('sm')]: {
-            display: 'block',
-        },
-    },
-    search: {
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
-        },
-        marginRight: theme.spacing(2),
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(3),
-            width: 'auto',
-        },
-    },
-    searchIcon: {
-        width: theme.spacing(7),
-        height: '100%',
         position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        left: '69.05px',
+        top: '9.52px',
+        fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        fontSize: '32px',
+        color: '#FFFFFF',
     },
-    inputRoot: {
-        color: 'inherit',
+    sign_in_icon: {
+        position: 'absolute',
+        width: '35.94px',
+        height: '36.19px',
+        right: '190px',
+        top: '11.43px',
     },
-    inputInput: {
-        padding: theme.spacing(1, 1, 1, 7),
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: 200,
-        },
+    sign_in_up: {
+        position: 'absolute',
+        width: '165px',
+        height: '25.71px',
+        right: '20px',
+        top: '17px',
+        fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        fontSize: '17px',
+        lineHeight: '22px',
+        color: '#FFFFFF',
     },
-    sectionDesktop: {
-        display: 'none',
-        [theme.breakpoints.up('md')]: {
-            display: 'flex',
-        },
+    sign_in_up_text: {
+        "&:hover": {
+            cursor: 'pointer',
+            borderBottom: '2px solid #FFFFFF',
+            transition: '0.2s',
+        }
     },
-    sectionMobile: {
-        display: 'flex',
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
-        },
-    },
-}));
+}))
 
-export default function TopNav() {
+function TopNav() {
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-    const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-    const handleProfileMenuOpen = event => setAnchorEl(event.currentTarget);
-    const handleMobileMenuClose = () => setMobileMoreAnchorEl(null);
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-        handleMobileMenuClose();
-    };
-
-    const handleMobileMenuOpen = event => setMobileMoreAnchorEl(event.currentTarget);
-
-    const menuId = 'primary-search-account-menu';
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
-        </Menu>
-    );
-
-    const mobileMenuId = 'primary-search-account-menu-mobile';
-    const renderMobileMenu = (
-        <Menu
-            anchorEl={mobileMoreAnchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            id={mobileMenuId}
-            keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            open={isMobileMenuOpen}
-            onClose={handleMobileMenuClose}
-        >
-            <MenuItem>
-                <IconButton color="inherit">
-                    <Badge badgeContent={1} color="secondary">
-                        <MailIcon />
-                    </Badge>
-                </IconButton>
-                <p>Messages</p>
-            </MenuItem>
-            <MenuItem>
-                <IconButton color="inherit">
-                    <Badge badgeContent={1} color="secondary">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
-                <p>Notifications</p>
-            </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-                <p>Profile</p>
-            </MenuItem>
-        </Menu>
-    );
-
     return (
-        <div className={classes.grow}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="open drawer"
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        Spending Habits
-                    </Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{root:classes.inputRoot, input:classes.inputInput}}
-                            inputProps={{'aria-label':'search'}}
-                        />
-                    </div>
-                    <div className={classes.grow} />
-                        <div className={classes.sectionDesktop}>
-                            <IconButton color="inherit">
-                                <Badge badgeContent={1} color="secondary">
-                                    <MailIcon />
-                                </Badge>
-                            </IconButton>
-                            <IconButton color="inherit">
-                                <Badge badgeContent={1} color="secondary">
-                                    <NotificationsIcon />
-                                </Badge>
-                            </IconButton>
-                            <IconButton
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls={menuId}
-                                aria-haspopup="true"
-                                onClick={handleProfileMenuOpen}
-                                color="inherit"
-                            >
-                                <AccountCircle />
-                            </IconButton>
-                        </div>
-                        <div className={classes.sectionMobile}>
-                            <IconButton
-                                aria-label="show more"
-                                aria-controls={mobileMenuId}
-                                aria-haspopup="true"
-                                onClick={handleMobileMenuOpen}
-                                color="inherit"
-                            >
-                                <MoreIcon />
-                            </IconButton>
-                    </div>
-                </Toolbar>
-            </AppBar>
-            {renderMobileMenu}
-            {renderMenu}
+        <div className={classes.top_nav}>
+            <div className={classes.top_nav_wrapper}>
+                <div className={classes.menu}>
+                    <MenuIcon />
+                </div>
+                <div className={classes.title}>Spending Habits</div>
+                <div className={classes.sign_in_icon}><img src={signinicon} alt="Sign-in Icon" /></div>
+                <div className={classes.sign_in_up}>
+                    <span className={classes.sign_in_up_text}>Sign In</span>
+                    &nbsp;|&nbsp;
+                    <span className={classes.sign_in_up_text}>Sign Up</span>
+                </div>
+            </div>
         </div>
-    );
+    )
 }
+
+export default TopNav
