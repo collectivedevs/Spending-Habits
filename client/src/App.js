@@ -68,6 +68,7 @@ function App() {
             <Switch>
               <Route exact path="/" component={Landing} />
               <AuthRoute exact path="/login" component={login} />
+              <AuthRoute exact path="/signup" component={signup} />
             </Switch>
           </div>
         </Router>
