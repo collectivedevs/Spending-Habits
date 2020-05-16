@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import AppIcon from "../images/logo192.png";
+import Navbar from "../components/layouts/Navbar";
 
 // MUI Imports
 import Grid from "@material-ui/core/Grid";
@@ -117,6 +118,8 @@ class login extends Component {
     const errors = this.state.errors;
 
     return (
+      <Fragment>
+      <Navbar />
       <Grid container className={classes.form}>
         <Grid item sm />
         <Grid item sm>
@@ -178,6 +181,7 @@ class login extends Component {
         </Grid>
         <Grid item sm />
       </Grid>
+      </Fragment>
     );
   }
 }
