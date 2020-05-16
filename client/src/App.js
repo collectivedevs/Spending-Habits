@@ -64,7 +64,7 @@ function App() {
       <MuiThemeProvider theme={theme}>
         <Router>
           <div className="container">
-            <Navbar />
+           
             <Switch>
               <Route exact path="/" component={Landing} />
               <AuthRoute exact path="/login" component={login} />
