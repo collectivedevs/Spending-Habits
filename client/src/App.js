@@ -5,6 +5,7 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import themeFile from "./util/theme";
 //import jwtDecode from "jwt-decode";
+import Landing from './pages/Landing'
 
 
 // Components
@@ -14,6 +15,8 @@ import AuthRoute from "./util/AuthRoute";
 // Pages
 import home from "./pages/home";
 import login from "./pages/login";
+import signup from "./pages/signup";
+
 
 // Contexts
 import { Provider , /* userContext */} from './contexts/userContext';
@@ -56,22 +59,21 @@ const theme = createMuiTheme(themeFile);
 function App() {
   const [rootReducerCombined, initialStateCombined] = combineReducers({ user: [userReducer, userInitState], ui: [uiReducer, uiInitState] });
   const useCombinedState = useReducer(rootReducerCombined, initialStateCombined);
-    return (
-      <Provider value={useCombinedState}>
-        <MuiThemeProvider theme={theme}>
-          <Router>
-            <div className="container">
-              <Navbar />
-              <Switch>
-                <Route exact path="/" component={home} />
-                <AuthRoute exact path="/login" component={login} />
-              </Switch>
-            </div>
-          </Router>
-        </MuiThemeProvider>
-      </Provider>
-    );
-  
+  return (
+    <Provider value={useCombinedState}>
+      <MuiThemeProvider theme={theme}>
+        <Router>
+          <div className="container">
+            <Navbar />
+            <Switch>
+              <Route exact path="/" component={Landing} />
+              <AuthRoute exact path="/login" component={login} />
+            </Switch>
+          </div>
+        </Router>
+      </MuiThemeProvider>
+    </Provider>
+  );
 }
 
 export default App;
