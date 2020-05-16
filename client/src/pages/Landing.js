@@ -9,7 +9,7 @@ class Landing extends Component {
     document.addEventListener("mousemove", (e) => {
       let x = e.clientX - 10;
       let y = e.clientY - 6;
-            let circle = document.getElementsByClassName('makeStyles-mouse_circle-90')[0];
+      let circle = document.querySelector("div[class*='mouse_circle']");
 
      
       if (x + 30 <= window.innerWidth && y + 30 <= window.innerHeight) {
