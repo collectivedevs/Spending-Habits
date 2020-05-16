@@ -15,80 +15,107 @@ import { userContext } from "../contexts/userContext";
 // Actions
 import { loginUser } from "../actions/userAction";
 
-const styles = theme => ({
+const styles = (theme) => ({
   // We use the styles object in the theme which holds all the styling except palette - https://stackoverflow.com/questions/56897838/getting-a-error-typeerror-color-charat-is-not-a-function-in-c-node-modul
-  ...theme.styles
+  ...theme.styles,
 });
 
 const Link = require("react-router-dom").Link;
 
 class login extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       email: "",
       password: "",
-      errors: {}
+      errors: {},
     };
   }
 
   // This allows you to use 'this.context'
   static contextType = userContext;
 
-  static getDerivedStateFromProps(nextProps, prevState){
-      
-    if(nextProps.errors!==prevState.errors){
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log("getDerivedStateFromProps code..");
+    console.log(
+      `nextProps => ${JSON.stringify(nextProps)}; prevState => ${JSON.stringify(
+        prevState
+      )}`
+    );
+    if (nextProps.errors !== prevState.errors) {
+      return { errors: prevState.errors };
+    } else return null;
+  }
 
-      return { errors: prevState.errors};
-   }
-   else return null;
- }
- 
- componentDidUpdate(prevProps, prevState) {
-   
-  const [ {reducertwo:{errors}} ] = this.context;
-  
-  if(JSON.stringify(this.state.errors) !== JSON.stringify(errors) && errors !== null){
-       
-    // Perform some operation here
-     this.setState(prevState => ({
-         ...prevState,
+  componentDidUpdate(prevProps, prevState) {
+    console.log("componentDidUpdate code..");
+
+    const [
+      {
+        ui: { errors },
+      },
+    ] = this.context;
+
+    console.log(
+      `prevProps => ${JSON.stringify(prevProps)}; prevState => ${JSON.stringify(
+        prevState
+      )}`
+    );
+
+    console.log(`errors is ${JSON.stringify(errors)}`);
+
+    if (
+      JSON.stringify(this.state.errors) !== JSON.stringify(errors) &&
+      errors !== null
+    ) {
+      console.log("went in if statement");
+      // Perform some operation here
+      this.setState((prevState) => ({
+        ...prevState,
         errors: {
-            email: errors.email,
-            password: errors.password
-        }
-     }));
-   }
- }
+          email: errors.email,
+          password: errors.password,
+          general: errors.general,
+        },
+      }));
+    }
+  }
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
-   
+    console.log("went in handleSubmit");
+
     const userData = {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
     };
 
-    const [ {reducertwo:{loading}}, dispatch ] = this.context;
-    
+    const [
+      {
+        ui: { loading },
+      },
+      dispatch,
+    ] = this.context;
+
     loginUser(userData, this.props.history, dispatch);
-   
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
   render() {
-
     // classes is for Material Icons to do styling
     const { classes } = this.props;
-    const [ {reducertwo:{loading}} ] = this.context;
+    const [
+      {
+        ui: { loading },
+      },
+    ] = this.context;
     const errors = this.state.errors;
-   
+
     return (
       <Grid container className={classes.form}>
         <Grid item sm />
