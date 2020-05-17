@@ -55,6 +55,18 @@ export const getUserData = (dispatch) => {
       });
   };
 
+  export const uploadImage = (formData, dispatch) => {
+    dispatch({ type: LOADING_USER });
+    axios
+      .post("/user/image", formData)
+      .then(() => {
+        console.log('right before dispatch in upload image func');
+        getUserData(dispatch);
+        console.log('passed dispatch in upload image func');
+      })
+      .catch(err => console.log(err));
+  };
+
 export const logoutUser = () => dispatch => {
     
     localStorage.removeItem("FBIdToken");

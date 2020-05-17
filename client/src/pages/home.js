@@ -1,36 +1,11 @@
-// import React from 'react';
-
-// const home = () => {
-//     const  = useContext(userContext);
- 
-//     if (token) {
-  
-//       // DecodedToken stores when the token will expire along with details about the user and the token
-//       const decodedToken = jwtDecode(token);
-    
-//       if (decodedToken.exp * 1000 < Date.now()) {
-//         window.location.href = "/login";
-//         logoutUser();
-//       } else {
-//         dispatch({ type: SET_AUTHENTICATED });
-//         Axios.defaults.headers.common["Authorization"] = token;
-        
-//       }
-//     }
-//     return <div>Hello World</div>;
-// };
-
-// export default home;
-
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import jwtDecode from "jwt-decode";
-import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import dayjs from "dayjs";
 import Axios from "axios";
 //import EditDetails from "./EditDetails";
 import CustomButton from "../util/customButton";
-import ProfileSkeleton from "../util/ProfileSkeleton";
+import ProfileSkeleton from "../components/profile/ProfileSkeleton";
 
 // MUI Imports
 import Button from "@material-ui/core/Button";
@@ -39,59 +14,59 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 
 // Icons
-import LocationOn from "@material-ui/icons/LocationOn";
-import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import EditIcon from "@material-ui/icons/Edit";
 import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
 
-import {SET_AUTHENTICATED} from "../types";
+import { SET_AUTHENTICATED } from "../types";
 
 // Actions
-import {logoutUser} from "../actions/userAction";
+import { logoutUser, getUserData, uploadImage } from "../actions/userAction";
 
 // Context
 import { userContext } from "../contexts/userContext";
 
-
-
-const styles = theme => ({
-  ...theme.styles
+const styles = (theme) => ({
+  ...theme.styles,
 });
 
 const Link = require("react-router-dom").Link;
 
 class Profile extends Component {
-
   // This allows you to use 'this.context'
   static contextType = userContext;
 
-  componentWillMount() {
-    const [ {}, dispatch ] = this.context;
+  componentDidMount() {
+    const [{}, dispatch] = this.context;
     const token = localStorage.FBIdToken;
 
     if (token) {
-  
-              // DecodedToken stores when the token will expire along with details about the user and the token
-              const decodedToken = jwtDecode(token);
-            
-              if (decodedToken.exp * 1000 < Date.now()) {
-                window.location.href = "/login";
-                logoutUser();
-              } else {
-                dispatch({ type: SET_AUTHENTICATED });
-                Axios.defaults.headers.common["Authorization"] = token;
-                
-              }
-            }
+     
+      // DecodedToken stores when the token will expire along with details about the user and the token
+      const decodedToken = jwtDecode(token);
 
+      if (decodedToken.exp * 1000 < Date.now()) {
+         
+        window.location.href = "/login";
+        logoutUser();
+      } else {
+          
+        dispatch({ type: SET_AUTHENTICATED });
+        
+        Axios.defaults.headers.common["Authorization"] = token;
+        
+        getUserData(dispatch);
+        
+      }
+    }
   }
 
-  handleImageChange = event => {
+  handleImageChange = (event) => {
+    const [{}, dispatch] = this.context;
     const image = event.target.files[0];
     const formData = new FormData();
     formData.append("image", image, image.name);
-    this.props.uploadImage(formData);
+    uploadImage(formData, dispatch);
   };
 
   handleEditPicture = () => {
@@ -100,17 +75,29 @@ class Profile extends Component {
   };
 
   handleLogout = () => {
-    this.props.logoutUser();
+    logoutUser();
   };
 
   render() {
     const { classes } = this.props;
 
-    const [{ user: {
-        credentials: { handle, createdAt, imageUrl, bio, website, location },
-        loading,
-        authenticated
-      }}] = this.context;
+    const [
+      {
+        user: {
+          credentials: {
+            username,
+            budget,
+            quote,
+            createdAt,
+            imageUrl,
+          },
+          loading,
+          authenticated,
+        },
+      },
+    ] = this.context;
+
+    console.log(`image url: ${createdAt}`);
 
     let profileMarkup = !loading ? (
       authenticated ? (
@@ -137,31 +124,16 @@ class Profile extends Component {
             <div className="profile-details">
               <MuiLink
                 component={Link}
-                to={`/users/${handle}`}
+                to={`/users/${username}`}
                 color="primary"
                 variant="h5"
               >
-                @{handle}
+                @{username}
               </MuiLink>
               <hr />
-              {bio && <Typography variant="body2">{bio}</Typography>}
+              {quote && <Typography variant="body2">{quote}</Typography>}
               <hr />
-              {location && (
-                <Fragment>
-                  <LocationOn color="primary" /> <span>{location}</span>
-                  <hr />
-                </Fragment>
-              )}
-              {website && (
-                <Fragment>
-                  <LinkIcon color="primary" />
-                  <a href={website} target="_blank" rel="noopener noreferrer">
-                    {" "}
-                    {website}
-                  </a>
-                  <hr />
-                </Fragment>
-              )}
+              {budget && <Typography variant="body2">{budget}</Typography>}
               <CalendarToday color="primary" />{" "}
               <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
             </div>
@@ -169,7 +141,6 @@ class Profile extends Component {
             <CustomButton tip="Logout" onClick={this.handleLogout}>
               <KeyboardReturn color="primary" />
             </CustomButton>
-
           </div>
         </Paper>
       ) : (
@@ -204,12 +175,5 @@ class Profile extends Component {
     return profileMarkup;
   }
 }
-
-Profile.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
-  uploadImage: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(Profile);

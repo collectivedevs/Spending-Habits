@@ -16,7 +16,8 @@ const {
   signup,
   login,
   addUserDetails,
-  uploadImage
+  uploadImage,
+  getAuthenticatedUser
 } = require("./handlers/users");
 
 const FBAuth = require("./util/fbAuth");
@@ -31,6 +32,7 @@ app.delete("/transactions/:transactionId", FBAuth, deleteTransaction);
 app.post("/signup", signup);
 app.post("/login", login);
 app.post("/user", FBAuth, addUserDetails);
+app.get("/user", FBAuth, getAuthenticatedUser);
 app.post("/user/image", FBAuth, uploadImage);
 
 exports.api = functions.https.onRequest(app);

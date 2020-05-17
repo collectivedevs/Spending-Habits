@@ -127,6 +127,25 @@ exports.addUserDetails = (req, res) => {
     });
 };
 
+/** Get current user details. */
+
+exports.getAuthenticatedUser = (req, res) => {
+  let userData = {};
+  db.doc(`/users/${req.user.username}`)
+    .get()
+    .then(doc => {
+      if (doc.exists) {
+        userData.credentials = doc.data();
+
+        return res.json(userData);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
+    });
+};
+
 /** Uploads image to user account. */
 
 exports.uploadImage = (req, res) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-import NoImg from "../images/no-img.png";
+import NoImg from "../../images/no-img.png";
 
 // MUI  Imports
 import Paper from "@material-ui/core/Paper";
@@ -50,9 +50,9 @@ const ProfileSkeleton = props => {
             <div className={classes.fullLine} />
             <hr />
             <LocationOn color="primary" />
-            <span>Location</span>
+            <span>Life Quote</span>
             <hr />
-            <LinkIcon color="primary" /> <span>https://website.com </span>
+            <LinkIcon color="primary" /> <span> Budget $ </span>
             <hr />
             <CalendarToday color="primary" /> <span>Joined Date</span>
           </div>
