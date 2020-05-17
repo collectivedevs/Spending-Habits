@@ -37,19 +37,13 @@ class login extends Component {
   static contextType = userContext;
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("getDerivedStateFromProps code..");
-    console.log(
-      `nextProps => ${JSON.stringify(nextProps)}; prevState => ${JSON.stringify(
-        prevState
-      )}`
-    );
+   
     if (nextProps.errors !== prevState.errors) {
       return { errors: prevState.errors };
     } else return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("componentDidUpdate code..");
 
     const [
       {
@@ -57,19 +51,11 @@ class login extends Component {
       },
     ] = this.context;
 
-    console.log(
-      `prevProps => ${JSON.stringify(prevProps)}; prevState => ${JSON.stringify(
-        prevState
-      )}`
-    );
-
-    console.log(`errors is ${JSON.stringify(errors)}`);
-
     if (
       JSON.stringify(this.state.errors) !== JSON.stringify(errors) &&
       errors !== null
     ) {
-      console.log("went in if statement");
+  
       // Perform some operation here
       this.setState((prevState) => ({
         ...prevState,
@@ -84,19 +70,13 @@ class login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log("went in handleSubmit");
 
     const userData = {
       email: this.state.email,
       password: this.state.password,
     };
 
-    const [
-      {
-        ui: { loading },
-      },
-      dispatch,
-    ] = this.context;
+    const [ {}, dispatch ] = this.context;
 
     loginUser(userData, this.props.history, dispatch);
   };
@@ -110,11 +90,7 @@ class login extends Component {
   render() {
     // classes is for Material Icons to do styling
     const { classes } = this.props;
-    const [
-      {
-        ui: { loading },
-      },
-    ] = this.context;
+    const [ {ui: { loading }} ] = this.context;
     const errors = this.state.errors;
 
     return (

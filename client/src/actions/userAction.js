@@ -9,11 +9,11 @@ export const loginUser = (userData, history, dispatch) => {
     .post("/login", userData)
     .then(res => {
       setAuthorizationHeader(res.data.token);
-      getUserData();
+      getUserData(dispatch);
       dispatch({ type: CLEAR_ERRORS });
 
       // This is a method of pushing state and redirecting to it
-      history.push("/");
+      history.push("/profile");
     })
     .catch(err => {
       dispatch({
@@ -23,7 +23,7 @@ export const loginUser = (userData, history, dispatch) => {
     });
 };
 
-export const getUserData = () => dispatch => {
+export const getUserData = (dispatch) => {
     dispatch({ type: LOADING_USER });
     axios
       .get("/user")
@@ -42,10 +42,10 @@ export const getUserData = () => dispatch => {
       .post("/signup", newUserData)
       .then(res => {
         setAuthorizationHeader(res.data.token);
-        dispatch(getUserData());
+        dispatch(getUserData(dispatch));
         dispatch({ type: CLEAR_ERRORS });
         // This is a method of pushing state and redirecting to it
-        history.push("/");
+        history.push("/profile");
       })
       .catch(err => {
         dispatch({
