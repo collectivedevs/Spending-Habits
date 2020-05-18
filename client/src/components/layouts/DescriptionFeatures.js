@@ -9,17 +9,18 @@ const useStyles = makeStyles(theme => ({
         top: '60px',
         /* 60px is the height of the TopNav. So (100% - 60px) / 2 = 50% - 30px */
         bottom: 'calc(50% - 30px)',
-        background: 'linear-gradient(71.49deg, #008FEB 0%, #BE006C 100%)',
+        backgroundColor: '#c0c0c0',
         zIndex: 2,
         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     },
     df_title: {
         textAlign: 'center',
-        fontFamily: 'Verdana, Geneva, Tahoma, sans-serif',
+        fontFamily: 'Roboto, Verdana, Geneva, Tahoma, sans-serif',
         fontStyle: 'normal',
         fontWeight: 'bold',
         fontSize: '48px',
         color: '#FFFCFC',
+        textShadow: '0px 1px 2px #000000',
     },
 }))
 

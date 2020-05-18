@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import AppIcon from "../images/logo192.png";
 
@@ -14,6 +14,9 @@ import { userContext } from "../contexts/userContext";
 
 // Actions
 import { signupUser } from "../actions/userAction";
+
+import Navbar from "../components/layouts/Navbar";
+
 
 const styles = theme => ({
   // We use the styles object in the theme which holds all the styling except palette - https://stackoverflow.com/questions/56897838/getting-a-error-typeerror-color-charat-is-not-a-function-in-c-node-modul
@@ -100,124 +103,127 @@ class signup extends Component {
     const errors = this.state.errors;
 
     return (
-      <Grid container className={classes.form}>
-        <Grid item sm />
-        <Grid item sm>
-          <img src={AppIcon} alt="Logo" className={classes.logo} />
-          <Typography variant="h2" className={classes.pageTitle}>
-            Sign Up
-          </Typography>
-          <form noValidate onSubmit={this.handleSubmit}>
-
-          <TextField
-              color="secondary"
-              id="username"
-              name="username"
-              type="text"
-              label="Username"
-              className={classes.TextField}
-              helperText={errors.username}
-              error={errors.username ? true : false}
-              value={this.state.username}
-              onChange={this.handleChange}
-              fullWidth
-            />
+      <Fragment>
+        <Navbar />
+        <Grid container className={classes.form}>
+          <Grid item sm />
+          <Grid item sm>
+            <img src={AppIcon} alt="Logo" className={classes.logo} />
+            <Typography variant="h2" className={classes.pageTitle}>
+              Sign Up
+            </Typography>
+            <form noValidate onSubmit={this.handleSubmit}>
 
             <TextField
-              color="secondary"
-              id="firstName"
-              name="firstName"
-              type="text"
-              label="first name"
-              className={classes.TextField}
-              helperText={errors.firstName}
-              error={errors.firstName ? true : false}
-              value={this.state.firstName}
-              onChange={this.handleChange}
-              fullWidth
-            />
+                color="secondary"
+                id="username"
+                name="username"
+                type="text"
+                label="Username"
+                className={classes.TextField}
+                helperText={errors.username}
+                error={errors.username ? true : false}
+                value={this.state.username}
+                onChange={this.handleChange}
+                fullWidth
+              />
 
-            <TextField
-              color="secondary"
-              id="lastName"
-              name="lastName"
-              type="text"
-              label="last name"
-              className={classes.TextField}
-              helperText={errors.lastName}
-              error={errors.lastName ? true : false}
-              value={this.state.lastName}
-              onChange={this.handleChange}
-              fullWidth
-            />
+              <TextField
+                color="secondary"
+                id="firstName"
+                name="firstName"
+                type="text"
+                label="first name"
+                className={classes.TextField}
+                helperText={errors.firstName}
+                error={errors.firstName ? true : false}
+                value={this.state.firstName}
+                onChange={this.handleChange}
+                fullWidth
+              />
 
-            <TextField
-              color="secondary"
-              id="email"
-              name="email"
-              type="email"
-              label="Email"
-              className={classes.TextField}
-              helperText={errors.email}
-              error={errors.email ? true : false}
-              value={this.state.email}
-              onChange={this.handleChange}
-              fullWidth
-            />
-            <TextField
-              color="secondary"
-              id="password"
-              name="password"
-              type="password"
-              label="Password"
-              className={classes.TextField}
-              helperText={errors.password}
-              error={errors.password ? true : false}
-              value={this.state.password}
-              onChange={this.handleChange}
-              fullWidth
-            />
+              <TextField
+                color="secondary"
+                id="lastName"
+                name="lastName"
+                type="text"
+                label="last name"
+                className={classes.TextField}
+                helperText={errors.lastName}
+                error={errors.lastName ? true : false}
+                value={this.state.lastName}
+                onChange={this.handleChange}
+                fullWidth
+              />
 
-            <TextField
-              color="secondary"
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              label="Confirm Password"
-              className={classes.TextField}
-              helperText={errors.confirmPassword}
-              error={errors.confirmPassword ? true : false}
-              value={this.state.confirmPassword}
-              onChange={this.handleChange}
-              fullWidth
-            />
+              <TextField
+                color="secondary"
+                id="email"
+                name="email"
+                type="email"
+                label="Email"
+                className={classes.TextField}
+                helperText={errors.email}
+                error={errors.email ? true : false}
+                value={this.state.email}
+                onChange={this.handleChange}
+                fullWidth
+              />
+              <TextField
+                color="secondary"
+                id="password"
+                name="password"
+                type="password"
+                label="Password"
+                className={classes.TextField}
+                helperText={errors.password}
+                error={errors.password ? true : false}
+                value={this.state.password}
+                onChange={this.handleChange}
+                fullWidth
+              />
 
-            {errors.general && (
-              <Typography variant="body2" className={classes.customError}>
-                {errors.general}
-              </Typography>
-            )}
+              <TextField
+                color="secondary"
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                label="Confirm Password"
+                className={classes.TextField}
+                helperText={errors.confirmPassword}
+                error={errors.confirmPassword ? true : false}
+                value={this.state.confirmPassword}
+                onChange={this.handleChange}
+                fullWidth
+              />
 
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              disabled={loading}
-            >
-              Signup
-              {loading && (
-                <CircularProgress size={30} className={classes.progress} />
+              {errors.general && (
+                <Typography variant="body2" className={classes.customError}>
+                  {errors.general}
+                </Typography>
               )}
-            </Button>
-            <br></br>
-            <small>
-              Already have an account ? log in <Link to="/login">here</Link>
-            </small>
-          </form>
+
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                disabled={loading}
+              >
+                Signup
+                {loading && (
+                  <CircularProgress size={30} className={classes.progress} />
+                )}
+              </Button>
+              <br></br>
+              <small>
+                Already have an account ? log in <Link to="/login">here</Link>
+              </small>
+            </form>
+          </Grid>
+          <Grid item sm />
         </Grid>
-        <Grid item sm />
-      </Grid>
+      </Fragment>
     );
   }
 }

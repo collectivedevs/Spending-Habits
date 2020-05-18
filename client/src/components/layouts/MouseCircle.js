@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(theme => ({
     mouse_circle: {
         position: 'absolute',
-        zIndex: 4,
+        zIndex: 1200,
         width: '30px',
         height: '30px',
         borderRadius: '50%',
