@@ -10,7 +10,6 @@ import themeFile from "./util/theme";
 
 // Components
 import AuthRoute from "./util/AuthRoute";
-import MouseCircle from "./components/layouts/MouseCircle";
 
 // Pages
 import Landing from './pages/Landing'
@@ -60,24 +59,6 @@ function App() {
   const [rootReducerCombined, initialStateCombined] = combineReducers({ user: [userReducer, userInitState], ui: [uiReducer, uiInitState] });
   const useCombinedState = useReducer(rootReducerCombined, initialStateCombined);
 
-  useEffect(() => {
-    document.addEventListener("mousemove", (e) => {
-      let x = e.clientX - 10;
-      let y = e.clientY - 6;
-      let circle = document.querySelector("div[class*='mouse_circle']");
-     
-      if (x + 30 <= window.innerWidth && y + 30 <= window.innerHeight) {
-        circle.style.opacity = "100";
-      }
-      else { 
-          circle.style.opacity = "0";
-      }
-
-      if (x + 30 <= window.innerWidth) circle.style.left = x + "px";
-      if (y + 30 <= window.innerHeight) circle.style.top = y + "px";
-    });
-  });
-
   return (
     <Provider value={useCombinedState}>
       <MuiThemeProvider theme={theme}>
@@ -88,7 +69,6 @@ function App() {
               <AuthRoute exact path="/login" component={login} />
               <AuthRoute exact path="/signup" component={signup} />
             </Switch>
-            <MouseCircle />
           </div>
         </Router>
       </MuiThemeProvider>

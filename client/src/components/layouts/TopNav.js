@@ -2,7 +2,6 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import MenuButton from '../buttons/MenuButton'
 import signinicon from '../../media/signinicon.svg'
-import { Popover, Typography } from '@material-ui/core'
 
 const Link = require("react-router-dom").Link
 
@@ -13,7 +12,7 @@ const useStyles = makeStyles(theme => ({
         left: '0px',
         right: '0px',
         top: '0px',
-        background: 'linear-gradient(90deg, #00DB70 0%, #00A3FF 100%)',
+        background: 'linear-gradient(90deg, #19d25a 0%, #1976d2 100%)',
         zIndex: 3,
         boxShadow: '0px 3.78333px 3.78333px rgba(0, 0, 0, 0.25)',
     },
@@ -50,24 +49,22 @@ const useStyles = makeStyles(theme => ({
         fontWeight: 'bold',
         fontSize: '20px',
         color: '#FFFFFF',
+        textShadow: '0px 1px 2px #000000',
     },
     sign_in_up_text: {
+        color: '#FFFFFF',
+        borderBottom: '2px solid #1976D2',
         "&:hover": {
             cursor: 'pointer',
-            borderBottom: '2px solid #FFFFFF',
+            borderBottomColor: '#FFF',
             transition: '0.2s',
         },
-        color: '#FFFFFF',
-    },
-    popover_text: {
-        padding: theme.spacing(2),
     },
 }))
 
 function TopNav() {
     const classes = useStyles()
     const [open, setOpen] = React.useState(false)
-    const [anchorEl, setAnchorEl] = React.useState(null)
 
     const toggleDropdown = e => {
         if (open) {
@@ -82,19 +79,6 @@ function TopNav() {
         <div className={classes.top_nav}>
             <div className={classes.top_nav_wrapper}>
                 <MenuButton toggleDropdown={toggleDropdown} open={open} />
-                <Popover
-                    open={open} anchorEl={anchorEl} onClose={toggleDropdown}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                    }}
-                >
-                    <Typography className={classes.popover_text}>La de da de da</Typography>
-                </Popover>
                 <div className={classes.title}>Spending Habits</div>
                 <div className={classes.sign_in_icon}><img src={signinicon} alt="Sign-in Icon" /></div>
                 <div className={classes.sign_in_up}>

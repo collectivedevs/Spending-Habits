@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
         width: '30px',
         height: '30px',
         borderRadius: '50%',
-        backgroundColor: 'rgba(0, 0, 0, 0.07)',
+        backgroundColor: 'rgba(0, 0, 0, 0.04)',
         opacity: 0,
         pointerEvents: 'none',
     },
