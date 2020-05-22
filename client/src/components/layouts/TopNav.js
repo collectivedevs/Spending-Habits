@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
         top: '0px',
         background: 'linear-gradient(90deg, #19d25a 0%, #1976d2 100%)',
         zIndex: 3,
-        boxShadow: '0px 3.78333px 3.78333px rgba(0, 0, 0, 0.25)',
+        boxShadow: '0px 3.78333px 3.78333px rgba(0, 0, 0, 0.75)',
     },
     top_nav_wrapper: {
         maxWidth: '97.22%',

@@ -73,7 +73,7 @@ function DescriptionFeatures() {
             
             j = i
             i == (images.length - 1) ? i = 0 : i++
-        }, 5750);
+        }, 5750)
     })
 
     return (
