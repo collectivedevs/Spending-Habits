@@ -13,6 +13,7 @@ exports.getAllTransactions = (req, res) => {
         transactions.push({
          //...doc.data() <- this is an alternative method of getting the same data once all have same name that is
           transactionId: doc.id,
+          expenseType: doc.data().type,
           cost: doc.data().cost,
           createdAt: doc.data().createdAt
         });
@@ -28,12 +29,12 @@ exports.getAllTransactions = (req, res) => {
 /** Create a Tranasaction. */
 
 exports.createTransaction = (req, res) => {
-  if (req.body.type.trim() === "") {
+  if (req.body.expenseType.trim() === "") {
     return res.status(400).json({ body: "Transaction type must not be empty" });
   }
 
   const newTransaction = {
-    type: req.body.type,
+    expenseType: req.body.expenseType,
     cost: req.body.cost,
     createdAt: new Date().toISOString(),
     username: req.user.username

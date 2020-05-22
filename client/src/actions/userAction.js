@@ -13,7 +13,7 @@ export const loginUser = (userData, history, dispatch) => {
       dispatch({ type: CLEAR_ERRORS });
 
       // This is a method of pushing state and redirecting to it
-      history.push("/profile");
+      history.push("/home");
     })
     .catch(err => {
       dispatch({
@@ -60,21 +60,19 @@ export const getUserData = (dispatch) => {
     axios
       .post("/user/image", formData)
       .then(() => {
-        console.log('right before dispatch in upload image func');
         getUserData(dispatch);
-        console.log('passed dispatch in upload image func');
       })
       .catch(err => console.log(err));
   };
 
-export const logoutUser = () => dispatch => {
+export const logoutUser = (dispatch) => {
     
     localStorage.removeItem("FBIdToken");
     delete axios.defaults.headers.common["Authorization"];
     dispatch({ type: SET_UNAUTHENTICATED });
   };
 
-const setAuthorizationHeader = token => {
+export const setAuthorizationHeader = token => {
   const FBIdToken = `Bearer ${token}`;
   localStorage.setItem("FBIdToken", FBIdToken);
   axios.defaults.headers.common["Authorization"] = FBIdToken;
