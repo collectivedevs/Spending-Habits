@@ -115,9 +115,9 @@ function MenuButton({ toggleDropdown, open }) {
             onClick={e => {toggleDropdown(); ripple(e);}}
             className={classes.menu}
         >
-            <div className={`${classes.tp_ln} ${open ? classes.tp_ln_change : ''}`}></div>
-            <div className={`${classes.mid_ln} ${open ? classes.mid_ln_change : ''}`}></div>
-            <div className={`${classes.btm_ln} ${open ? classes.btm_ln_change : ''}`}></div>
+            <div id="tp-ln" className={`${classes.tp_ln} ${open ? classes.tp_ln_change : ''}`}></div>
+            <div id="mid-ln" className={`${classes.mid_ln} ${open ? classes.mid_ln_change : ''}`}></div>
+            <div id="btm-ln" className={`${classes.btm_ln} ${open ? classes.btm_ln_change : ''}`}></div>
         </div>
     )
 }

@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
     content: {
-        zIndex: 3,
+        zIndex: 5,
         position: 'absolute',
         top: '60px',
         left: 0,
@@ -17,14 +17,14 @@ const useStyles = makeStyles(theme => ({
         fontSize: '6vw',
         fontWeight: 'bold',
         color: '#f0f0f0',
-        textShadow: '0px 1px 2px #fff',
+        textShadow: '0px 1.2px 2.4px #19D25A',
     },
     features: {
         letterSpacing: '0.5vw',
         fontSize: '2vw',
         fontWeight: 'bold',
         color: '#f0f0f0',
-        textShadow: '0px 0.75px 1.5px #fff',
+        textShadow: '0vw 0.0625vw 0.125vw #FFF',
         margin: '4vh 0',
     },
     tick: {
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 function DFContent() {
     const classes = useStyles()
     return (
-        <div className={classes.content}>
+        <div id="features-content" className={classes.content}>
             <div className={classes.features_title}>FEATURES</div>
             <div className={classes.features}>
                 <span className={classes.tick}>&#10004;</span> Log Day to Day Expenses

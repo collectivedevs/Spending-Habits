@@ -19,9 +19,9 @@ const useStyles = makeStyles(theme => ({
         left: '0px',
         right: '0px',
         top: '0px',
-        background: 'linear-gradient(90deg, #19d25a 0%, #1976d2 100%)',
-        zIndex: 3,
-        boxShadow: '0px 3.78333px 3.78333px rgba(0, 0, 0, 0.75)',
+        background: 'linear-gradient(90deg, #19D25A 0%, #1976D2 100%)',
+        zIndex: 5,
+        boxShadow: '0px 3.78333px 3.78333px rgba(0, 0, 0, 0.5)',
     },
     top_nav_wrapper: {
         maxWidth: '97.22%',
@@ -76,7 +76,7 @@ const useStyles = makeStyles(theme => ({
         left: -270,
         opacity: 0,
         transition: '0.4s',
-        zIndex: 4,
+        zIndex: 6,
     },
     list_appear: {
         left: 0,
@@ -87,24 +87,38 @@ const useStyles = makeStyles(theme => ({
 function TopNav() {
     const classes = useStyles()
     const [open, setOpen] = React.useState(false)
+    const openRef = React.useRef(open)
 
     const toggleDropdown = () => {
-        setOpen(!open)
+        openRef.current = !openRef.current
+        setOpen(openRef.current)
         $(`.${classes.list}`).toggleClass(classes.list_appear)
     }
 
-    // const closeOnClick = e => {
-        
-    // }
+    const closeOnClick = e => {
+        let position = document.getElementsByClassName(classes.list)[0].offsetLeft
+        let id = e.target.id
 
-    // useEffect(() => {
-    //     // Add when mounted
-    //     document.addEventListener("mousedown", closeOnClick);
-    //     // Return function to be called when unmounted
-    //     return () => {
-    //         document.removeEventListener("mousedown", closeOnClick);
-    //     }
-    // }, []) // Pass empty array to 2nd arguments for optimisation
+        // If click is inside dropdown area do nothing
+        if (e.clientY >= 59 && e.clientY <= 286 && e.clientX >= 0 && e.clientX <= 271) {
+            return
+        }
+        else {
+            // If click is not on the menubutton and the dropdown is open, close it
+            if (position > -270 && id !== "menubutton" && id !== "tp-ln" && id !== "mid-ln" && id !== "btm-ln") {
+                toggleDropdown()
+            }
+        }
+    }
+
+    useEffect(() => {
+        // Add when mounted
+        document.addEventListener('mousedown', closeOnClick);
+        // Return function to be called when unmounted
+        return () => {
+            document.removeEventListener('mousedown', closeOnClick);
+        }
+    }, []) // Pass empty array to 2nd arguments for optimisation
 
     return (
         <Fragment>
@@ -122,22 +136,34 @@ function TopNav() {
             </div>
             <div className={classes.list}>
                 <List component="nav">
-                    <ListItem button>
+                    <ListItem
+                        button
+                        onClick={() => {toggleDropdown(); window.location.href = "#features-content";}}
+                    >
                         <ListItemIcon><FontAwesomeIcon icon={faCentercode} style={{fontSize: 20.5}} /></ListItemIcon>
                         <ListItemText primary="Features" />
                     </ListItem>
-                    <ListItem button>
+                    <ListItem 
+                        button
+                        onClick={() => {toggleDropdown(); window.location.href = "#vision-mission";}}
+                    >
                         <ListItemIcon><VisibilityIcon /></ListItemIcon>
                         <ListItemText primary="Vision & Mission" />
                     </ListItem>
                 </List>
                 <Divider />
                 <List component="nav">
-                    <ListItem button>
+                    <ListItem
+                        button
+                        onClick={() => {toggleDropdown(); window.location.href = "#founders";}}
+                    >
                         <ListItemIcon><PersonIcon /></ListItemIcon>
                         <ListItemText primary="The Founders" />
                     </ListItem>
-                    <ListItem button>
+                    <ListItem
+                        button
+                        onClick={toggleDropdown}
+                    >
                         <ListItemIcon><PhoneIcon /></ListItemIcon>
                         <ListItemText primary="Contact Us" />
                     </ListItem>

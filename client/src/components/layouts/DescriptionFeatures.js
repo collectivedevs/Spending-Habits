@@ -14,8 +14,8 @@ const useStyles = makeStyles(theme => ({
         right: '0%',
         top: '60px',
         minHeight: 'calc(100% - 60px)',
-        zIndex: 2,
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        zIndex: 4,
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.5)',
         background: '#101010',
         pointerEvents: 'none',
         transition: '2.5s',
@@ -77,7 +77,7 @@ function DescriptionFeatures() {
             document.getElementsByClassName(images[i])[0].classList.toggle(classes.opacity_zero)
             
             j = i
-            i == (images.length - 1) ? i = 0 : i++
+            i === (images.length - 1) ? i = 0 : i++
         }, 10500)
     })
 

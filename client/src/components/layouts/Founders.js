@@ -2,23 +2,23 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
-    developers: {
+    founders: {
         position: 'absolute',
         left: '0%',
         right: '0%',
-        top: '100%',
-        minHeight: 'calc(100% - 60px)',
-        background: '#EBEBEB',
-        zIndex: 1,
+        top: 'calc(100% + 437.19px)',
+        minHeight: '300px',
+        background: '#19D25A',
+        zIndex: 2,
     },
 }))
 
-function Developers() {
+function Founders() {
     const classes = useStyles();
     return (
-        <div className={classes.developers}>
+        <div id="founders" className={classes.founders}>
         </div>
     )
 }
 
-export default Developers
+export default Founders
