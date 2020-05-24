@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import $ from 'jquery'
 import MenuButton from '../buttons/MenuButton'
 import signinicon from '../../media/signinicon.svg'
+import { List, ListItemIcon, ListItemText, Divider, ListItem } from '@material-ui/core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCentercode } from '@fortawesome/free-brands-svg-icons'
+import VisibilityIcon from '@material-ui/icons/Visibility'
+import PersonIcon from '@material-ui/icons/Person'
+import PhoneIcon from '@material-ui/icons/Phone'
 
 const Link = require("react-router-dom").Link
 
@@ -60,34 +67,83 @@ const useStyles = makeStyles(theme => ({
             transition: '0.2s',
         },
     },
+    list: {
+        width: '100%',
+        maxWidth: 270,
+        backgroundColor: '#F5F5F5',
+        position: 'absolute',
+        top: '60px',
+        left: -270,
+        opacity: 0,
+        transition: '0.4s',
+        zIndex: 4,
+    },
+    list_appear: {
+        left: 0,
+        opacity: 1,
+    },
 }))
 
 function TopNav() {
     const classes = useStyles()
     const [open, setOpen] = React.useState(false)
 
-    const toggleDropdown = e => {
-        if (open) {
-            setOpen(false)
-        }
-        else {
-            setOpen(true)
-        }
+    const toggleDropdown = () => {
+        setOpen(!open)
+        $(`.${classes.list}`).toggleClass(classes.list_appear)
     }
 
+    // const closeOnClick = e => {
+        
+    // }
+
+    // useEffect(() => {
+    //     // Add when mounted
+    //     document.addEventListener("mousedown", closeOnClick);
+    //     // Return function to be called when unmounted
+    //     return () => {
+    //         document.removeEventListener("mousedown", closeOnClick);
+    //     }
+    // }, []) // Pass empty array to 2nd arguments for optimisation
+
     return (
-        <div className={classes.top_nav}>
-            <div className={classes.top_nav_wrapper}>
-                <MenuButton toggleDropdown={toggleDropdown} open={open} />
-                <div className={classes.title}>Spending Habits</div>
-                <div className={classes.sign_in_icon}><img src={signinicon} alt="Sign-in Icon" /></div>
-                <div className={classes.sign_in_up}>
-                    <Link className={classes.sign_in_up_text} to="/login">Log In</Link>
-                    &nbsp;|&nbsp;
-                    <Link className={classes.sign_in_up_text} to="/signup">Sign Up</Link>
+        <Fragment>
+            <div className={classes.top_nav}>
+                <div className={classes.top_nav_wrapper}>
+                    <MenuButton toggleDropdown={toggleDropdown} open={open} />
+                    <div className={classes.title}>Spending Habits</div>
+                    <div className={classes.sign_in_icon}><img src={signinicon} alt="Sign-in Icon" /></div>
+                    <div className={classes.sign_in_up}>
+                        <Link className={classes.sign_in_up_text} to="/login">Log In</Link>
+                        &nbsp;|&nbsp;
+                        <Link className={classes.sign_in_up_text} to="/signup">Sign Up</Link>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div className={classes.list}>
+                <List component="nav">
+                    <ListItem button>
+                        <ListItemIcon><FontAwesomeIcon icon={faCentercode} style={{fontSize: 20.5}} /></ListItemIcon>
+                        <ListItemText primary="Features" />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon><VisibilityIcon /></ListItemIcon>
+                        <ListItemText primary="Vision & Mission" />
+                    </ListItem>
+                </List>
+                <Divider />
+                <List component="nav">
+                    <ListItem button>
+                        <ListItemIcon><PersonIcon /></ListItemIcon>
+                        <ListItemText primary="The Founders" />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon><PhoneIcon /></ListItemIcon>
+                        <ListItemText primary="Contact Us" />
+                    </ListItem>
+                </List>
+            </div>
+        </Fragment>
     )
 }
 

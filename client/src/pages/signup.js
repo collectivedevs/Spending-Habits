@@ -133,7 +133,7 @@ class signup extends Component {
                 id="firstName"
                 name="firstName"
                 type="text"
-                label="first name"
+                label="First Name"
                 className={classes.TextField}
                 helperText={errors.firstName}
                 error={errors.firstName ? true : false}
@@ -147,7 +147,7 @@ class signup extends Component {
                 id="lastName"
                 name="lastName"
                 type="text"
-                label="last name"
+                label="Last Name"
                 className={classes.TextField}
                 helperText={errors.lastName}
                 error={errors.lastName ? true : false}

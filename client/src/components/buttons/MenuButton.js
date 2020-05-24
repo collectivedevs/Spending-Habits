@@ -112,7 +112,7 @@ function MenuButton({ toggleDropdown, open }) {
     return (
         <div
             id="menubutton"
-            onClick={e => {toggleDropdown(e); ripple(e);}}
+            onClick={e => {toggleDropdown(); ripple(e);}}
             className={classes.menu}
         >
             <div className={`${classes.tp_ln} ${open ? classes.tp_ln_change : ''}`}></div>

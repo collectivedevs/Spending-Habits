@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
         right: '0%',
         top: '100%',
         minHeight: 'calc(100% - 60px)',
-        background: 'linear-gradient(71.49deg, #AA0058 0%, #007BD7 100%)',
+        background: '#EBEBEB',
         zIndex: 1,
     },
 }))
