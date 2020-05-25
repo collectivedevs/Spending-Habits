@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import TopNav from '../components/layouts/TopNav'
 import DescriptionFeatures from '../components/layouts/DescriptionFeatures'
 import VisionMission from '../components/layouts/VisionMission'
-import Developers from '../components/layouts/Founders'
+import Founders from '../components/layouts/Founders'
 import ToTop from '../components/buttons/ToTop'
 
 function Landing() {
@@ -11,7 +11,7 @@ function Landing() {
             <TopNav />
             <DescriptionFeatures />
             <VisionMission />
-            <Developers />
+            <Founders />
             <ToTop />
         </Fragment>
     )

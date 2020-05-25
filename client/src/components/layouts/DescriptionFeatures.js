@@ -70,16 +70,18 @@ function DescriptionFeatures() {
         let interval = 0
             
         setInterval(() => {
-            // Stop errors from appearing on other pages
-            if (!document.getElementsByClassName(images[j])[0]) return clearInterval(interval)
-            
             document.getElementsByClassName(images[j])[0].classList.toggle(classes.opacity_zero)
             document.getElementsByClassName(images[i])[0].classList.toggle(classes.opacity_zero)
             
             j = i
             i === (images.length - 1) ? i = 0 : i++
         }, 10500)
-    })
+
+        return () => {
+            clearInterval(interval)
+        }
+    }, [])
+
 
     return (
         <Fragment>
