@@ -41,11 +41,15 @@ const useStyles = makeStyles(theme => ({
         position: 'absolute',
         width: '100%',
         top: '100px',
-        minHeight: 'calc(100% - 178px)',
+        minHeight: 'calc(100% - 180px)',
         backgroundColor: '#CCC',
         pointerEvents: 'none',
-        transitionDuration: '0.5s',
-        transitionTimingFunction: 'linear',
+        transition: '0.4s ease-in',
+    },
+    images: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
     },
     foun_1: {
         left: '0%',
@@ -71,30 +75,83 @@ const useStyles = makeStyles(theme => ({
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
     },
+    content: {
+        position: 'absolute',
+        bottom: '-40%',
+        width: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        color: '#f0f0f0',
+        fontFamily: '"Lato", sans-serif',
+        transition: '0.4s ease-in',
+    },
+    bottom_zero: {
+        bottom: '0%',
+    },
+    name: {
+        letterSpacing: '6.25px',
+        textTransform: 'uppercase',
+        fontSize: '25px',
+        fontWeight: 'normal',
+        margin: '10px',
+    },
+    job_role: {
+        letterSpacing: '3px',
+        textTransform: 'uppercase',
+        fontSize: '12px',
+        margin: '0px 10px',
+    },
+    about: {
+        letterSpacing: '4px',
+        wordSpacing: '5.3333px',
+        fontSize: '16px',
+        marginLeft: '10px',
+        marginRight: '10px',
+        marginTop: '20px',
+        marginBottom: '10px',
+    },
     display_none: {
         display: 'none',
     },
     seek_bar: {
         position: 'absolute',
         left: '0%',
-        right: '0%',
-        top: 'calc(100% - 78px)',
-        height: '3px',
-        backgroundColor: '#F00',
+        width: '100%',
+        top: 'calc(100% - 80px)',
+        height: '5px',
+        backgroundColor: '#FFC0C0',
         "&:hover": {
             cursor: 'pointer',
         },
     },
-    seek: {
+    seek_hover: {
         position: 'absolute',
         left: '0%',
-        right: '0%',
-        top: 'calc(100% - 84px)',
-        height: '15px',
-        width: '15px',
-        borderRadius: '50%',
+        width: '0%',
+        top: 'calc(100% - 80px)',
+        height: '5px',
+        backgroundColor: '#FF7F7F',
+    },
+    seek_progress: {
+        position: 'absolute',
+        left: '0%',
+        width: 'calc(0% + 8.5px)',
+        top: 'calc(100% - 80px)',
+        height: '5px',
         backgroundColor: '#F00',
         zIndex: 3,
+        "&:hover": {
+            cursor: 'pointer',
+        },
+    },
+    seek_point: {
+        position: 'absolute',
+        left: '0%',
+        top: 'calc(100% - 86px)',
+        height: '17px',
+        width: '17px',
+        borderRadius: '50%',
+        backgroundColor: '#F00',
+        zIndex: 5,
         "&:hover": {
             cursor: 'pointer',
         },
@@ -153,13 +210,13 @@ const useStyles = makeStyles(theme => ({
     },
     "@keyframes pulsePurple": {
         '0%': {
-            boxShadow: '0 0 4px 3px rgba(0, 0, 0, 0), 0 0 0px 0px #152433, 0 0 0px 0px rgba(0, 0, 0, 0)'
+            boxShadow: '0 0 4px 3px #152433, 0 0 0px 0px #152433, 0 0 0px 0px #152433'
         },
         '10%': {
             boxShadow: '0 0 4px 3px #832bff, 0 0 6px 5px #152433, 0 0 6px 7px #832bff'
         },
         '100%': {
-            boxShadow: '0 0 4px 3px rgba(0, 0, 0, 0), 0 0 0px 20px #152433, 0 0 0px 20px rgba(0, 0, 0, 0)'
+            boxShadow: '0 0 4px 3px #152433, 0 0 0px 20px #152433, 0 0 0px 20px #152433'
         },
     },
 }))
@@ -167,7 +224,6 @@ const useStyles = makeStyles(theme => ({
 function Founders() {
     const classes = useStyles()
     const len = (3 - 1)
-    const imgsLeft = [0, 100, 200]
     const [index, setIndex] = React.useState(0)
 
     useEffect(() => {
@@ -177,17 +233,21 @@ function Founders() {
         if (index < len) $(`.${classes.next}`).removeClass(classes.display_none)
         else $(`.${classes.next}`).addClass(classes.display_none)
 
+        // Change Image
+        $('#founders-images').css({left: (0 - (index * 100)) + '%'})
+
+        // Raise content
+        let contents = document.getElementsByClassName(classes.content)
+        for (let i = 0; i < contents.length; i++) {
+            if (index === i) contents[i].classList.add(classes.bottom_zero)
+            else contents[i].classList.remove(classes.bottom_zero)
+        }
+
         // Change Active Dot
         let dots = document.getElementsByClassName(classes.dots)
         for (let i = 0; i < dots.length; i++) {
             if (index === i) dots[i].classList.add(classes.dots_active)
             else dots[i].classList.remove(classes.dots_active)
-        }
-
-        // Change Image
-        let images = document.getElementsByClassName(classes.founders_images)
-        for (let i = 0; i < images.length; i++) {
-            images[i].style.left = (imgsLeft[i] - (index * 100)) + '%'
         }
     },
     [index] // Only re-run the effect if index changes
@@ -198,9 +258,41 @@ function Founders() {
             <div className={classes.the_founders_wrapper}>
                 <h3 className={classes.the_founders}>The Founders</h3>
             </div>
-            <div className={`${classes.founders_images} ${classes.foun_1}`}></div>
-            <div className={`${classes.founders_images} ${classes.foun_2}`}></div>
-            <div className={`${classes.founders_images} ${classes.foun_3}`}></div>
+            <div id="founders-images" className={classes.founders_images}>
+                <div className={`${classes.images} ${classes.foun_1}`}>
+                    <div className={classes.content}>
+                        <h3 className={classes.name}>Joel Moore</h3>
+                        <small className={classes.job_role}>Lead Back End Developer</small>
+                        <p className={classes.about}>
+                            Lorem ipsum dolor sit amet, an his etiam torquatos. Tollit soleat phaedrum te duo, eum cu
+                            recteque expetendis neglegentur. Cu mentitum maiestatis persequeris pro, pri ponderum
+                            tractatos ei.
+                        </p>
+                    </div>
+                </div>
+                <div className={`${classes.images} ${classes.foun_2}`}>
+                    <div className={classes.content}>
+                        <h3 className={classes.name}>Rich Prosper</h3>
+                        <small className={classes.job_role}>Lead Front End Developer</small>
+                        <p className={classes.about}>
+                            Lorem ipsum dolor sit amet, an his etiam torquatos. Tollit soleat phaedrum te duo, eum cu
+                            recteque expetendis neglegentur. Cu mentitum maiestatis persequeris pro, pri ponderum
+                            tractatos ei.
+                        </p>
+                    </div>
+                </div>
+                <div className={`${classes.images} ${classes.foun_3}`}>
+                    <div className={classes.content}>
+                        <h3 className={classes.name}>Paula Ramírez</h3>
+                        <small className={classes.job_role}>Full Stack Developer</small>
+                        <p className={classes.about}>
+                            Lorem ipsum dolor sit amet, an his etiam torquatos. Tollit soleat phaedrum te duo, eum cu
+                            recteque expetendis neglegentur. Cu mentitum maiestatis persequeris pro, pri ponderum
+                            tractatos ei.
+                        </p>
+                    </div>
+                </div>
+            </div>
             <Fab
                 size="small"
                 aria-label="prev"
@@ -218,7 +310,9 @@ function Founders() {
                 <ChevronRightIcon />
             </Fab>
             <div className={classes.seek_bar}></div>
-            <div className={classes.seek}></div>
+            <div className={classes.seek_hover}></div>
+            <div className={classes.seek_progress}></div>
+            <div className={`${classes.seek_point} ${classes.display_none}`}></div>
             <div className={classes.dots_wrapper}>
                 <div className={classes.dots} onClick={() => {setIndex(0)}}></div>
                 <div className={classes.dots} onClick={() => {setIndex(1)}}></div>

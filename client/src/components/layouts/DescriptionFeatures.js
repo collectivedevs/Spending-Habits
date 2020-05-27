@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import financial from '../../images/landing-page-images/financial.jpg'
+import iphone from '../../images/landing-page-images/iphone.jpg'
 import notebook from '../../images/landing-page-images/notebook.jpg'
 import sackcloth from '../../images/landing-page-images/sackcloth.jpg'
 import business from '../../images/landing-page-images/business.jpg'
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
         transition: '2.5s',
     },
     img_1: {
-        background: `url(${financial})`,
+        background: `url(${iphone})`,
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
