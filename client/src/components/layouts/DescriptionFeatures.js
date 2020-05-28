@@ -70,11 +70,13 @@ function DescriptionFeatures() {
         let interval = 0
             
         setInterval(() => {
-            document.getElementsByClassName(images[j])[0].classList.toggle(classes.opacity_zero)
-            document.getElementsByClassName(images[i])[0].classList.toggle(classes.opacity_zero)
-            
-            j = i
-            i === (images.length - 1) ? i = 0 : i++
+            if (document.getElementsByClassName(images[j])[0]) {
+                document.getElementsByClassName(images[j])[0].classList.toggle(classes.opacity_zero)
+                document.getElementsByClassName(images[i])[0].classList.toggle(classes.opacity_zero)
+                
+                j = i
+                i === (images.length - 1) ? i = 0 : i++
+            }
         }, 10500)
 
         return () => {

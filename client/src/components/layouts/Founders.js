@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
         minHeight: '100%',
         background: '#EEE',
         fontFamily: '"Lato", sans-serif',
+        userSelect: 'none',
         zIndex: 2,
         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.5)',
         overflow: 'hidden',
@@ -82,7 +83,8 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         color: '#f0f0f0',
         fontFamily: '"Lato", sans-serif',
-        transition: '0.4s ease-in',
+        userSelect: 'none',
+        transition: '0.4s 0.4s ease-in',
     },
     bottom_zero: {
         bottom: '0%',
@@ -93,6 +95,7 @@ const useStyles = makeStyles(theme => ({
         fontSize: '25px',
         fontWeight: 'normal',
         margin: '10px',
+        marginTop: '15px',
     },
     job_role: {
         letterSpacing: '3px',
@@ -107,7 +110,7 @@ const useStyles = makeStyles(theme => ({
         marginLeft: '10px',
         marginRight: '10px',
         marginTop: '20px',
-        marginBottom: '10px',
+        marginBottom: '15px',
     },
     display_none: {
         display: 'none',
@@ -119,39 +122,44 @@ const useStyles = makeStyles(theme => ({
         top: 'calc(100% - 80px)',
         height: '5px',
         backgroundColor: '#FFC0C0',
-        "&:hover": {
-            cursor: 'pointer',
-        },
     },
     seek_hover: {
         position: 'absolute',
-        left: '0%',
-        width: '0%',
+        left: 0,
+        width: 0,
         top: 'calc(100% - 80px)',
         height: '5px',
         backgroundColor: '#FF7F7F',
     },
     seek_progress: {
         position: 'absolute',
-        left: '0%',
-        width: 'calc(0% + 8.5px)',
+        left: 0,
+        width: 0,
         top: 'calc(100% - 80px)',
         height: '5px',
+        backgroundColor: '#F00',
+    },
+    seek_point: {
+        position: 'absolute',
+        left: 0,
+        top: 'calc(100% - 86px)',
+        height: '17px',
+        width: '17px',
+        borderRadius: '50%',
         backgroundColor: '#F00',
         zIndex: 3,
         "&:hover": {
             cursor: 'pointer',
         },
     },
-    seek_point: {
+    seek_bar_padding: {
         position: 'absolute',
         left: '0%',
-        top: 'calc(100% - 86px)',
-        height: '17px',
-        width: '17px',
-        borderRadius: '50%',
-        backgroundColor: '#F00',
-        zIndex: 5,
+        width: '100%',
+        top: 'calc(100% - 100px)',
+        height: '25px',
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        zIndex: 3,
         "&:hover": {
             cursor: 'pointer',
         },
@@ -253,11 +261,59 @@ function Founders() {
     [index] // Only re-run the effect if index changes
     )
 
+    const mouseEnter = () => {
+        $(`.${classes.seek_point}`).removeClass(classes.display_none)
+    }
+
+    const mouseLeave = () => {
+        $(`.${classes.seek_point}`).addClass(classes.display_none)
+        $(`.${classes.seek_hover}`).css({width: 0})
+    }
+
+    const mouseMoveA = e => {
+        $(`.${classes.seek_hover}`).css({width: e.clientX + 'px'})
+    }
+
+    const mouseDown = e => {
+        document.getElementsByClassName(classes.seek_bar_padding)[0].addEventListener('mousemove', mouseMoveB)
+
+        // Move seek point and seek progress
+        let left = e.clientX
+
+        if ((left - 8.5) < 0) left = 0
+        else if (left > (window.innerWidth - 27)) left = window.innerWidth - 27
+        else left -= 8.5
+
+        $(`.${classes.seek_point}`).css({left: left + 'px'})
+        $(`.${classes.seek_progress}`).css({width: e.clientX + 'px'})
+
+        // Move images and content
+        $('#founders-images').css({left: (-(e.clientX / (window.innerWidth - 10)) * 100 * len) + '%'})
+    }
+
+    const mouseMoveB = e => {
+        let left = e.clientX
+
+        if ((left - 8.5) < 0) left = 0
+        else if (left > (window.innerWidth - 27)) left = window.innerWidth - 27
+        else left -= 8.5
+
+        $(`.${classes.seek_point}`).css({left: left + 'px'})
+        $(`.${classes.seek_progress}`).css({width: e.clientX + 'px'})
+
+        $('#founders-images').css({left: (-(e.clientX / (window.innerWidth - 10)) * 100 * len) + '%'})
+    }
+
+    const mouseUp = () => {
+        document.getElementsByClassName(classes.seek_bar_padding)[0].removeEventListener('mousemove', mouseMoveB)
+    }
+
     return (
-        <div id="founders" className={classes.founders_container}>
+        <div id="founders" className={classes.founders_container} onMouseUp={mouseUp}>
             <div className={classes.the_founders_wrapper}>
                 <h3 className={classes.the_founders}>The Founders</h3>
             </div>
+
             <div id="founders-images" className={classes.founders_images}>
                 <div className={`${classes.images} ${classes.foun_1}`}>
                     <div className={classes.content}>
@@ -293,6 +349,7 @@ function Founders() {
                     </div>
                 </div>
             </div>
+
             <Fab
                 size="small"
                 aria-label="prev"
@@ -309,10 +366,26 @@ function Founders() {
             >
                 <ChevronRightIcon />
             </Fab>
+
             <div className={classes.seek_bar}></div>
             <div className={classes.seek_hover}></div>
             <div className={classes.seek_progress}></div>
-            <div className={`${classes.seek_point} ${classes.display_none}`}></div>
+            <div
+                className={`${classes.seek_point} ${classes.display_none}`}
+                onMouseEnter={mouseEnter}
+                onMouseLeave={mouseLeave}
+            >
+            </div>
+            <div
+                className={classes.seek_bar_padding}
+                onMouseEnter={mouseEnter}
+                onMouseLeave={mouseLeave}
+                onMouseMove={mouseMoveA}
+                onMouseDown={mouseDown}
+                onMouseUp={mouseUp}
+            >
+            </div>
+
             <div className={classes.dots_wrapper}>
                 <div className={classes.dots} onClick={() => {setIndex(0)}}></div>
                 <div className={classes.dots} onClick={() => {setIndex(1)}}></div>
