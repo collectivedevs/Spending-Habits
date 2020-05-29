@@ -45,7 +45,6 @@ const useStyles = makeStyles(theme => ({
         minHeight: 'calc(100% - 180px)',
         backgroundColor: '#CCC',
         pointerEvents: 'none',
-        transition: '0.4s ease-in',
     },
     images: {
         position: 'absolute',
@@ -86,9 +85,6 @@ const useStyles = makeStyles(theme => ({
         userSelect: 'none',
         transition: '0.4s 0.4s ease-in',
     },
-    bottom_zero: {
-        bottom: '0%',
-    },
     name: {
         letterSpacing: '6.25px',
         textTransform: 'uppercase',
@@ -112,8 +108,14 @@ const useStyles = makeStyles(theme => ({
         marginTop: '20px',
         marginBottom: '15px',
     },
+    bottom_zero: {
+        bottom: '0%',
+    },
     display_none: {
         display: 'none',
+    },
+    transition_image: {
+        transition: '0.4s ease-in',
     },
     seek_bar: {
         position: 'absolute',
@@ -157,12 +159,19 @@ const useStyles = makeStyles(theme => ({
         left: '0%',
         width: '100%',
         top: 'calc(100% - 100px)',
-        height: '25px',
+        height: '35px',
         backgroundColor: 'rgba(0, 0, 0, 0)',
         zIndex: 3,
         "&:hover": {
             cursor: 'pointer',
         },
+    },
+    for_seeking: {
+        position: 'absolute',
+        top: 'calc(100% - 200px)',
+        left: 0,
+        width: '100%',
+        height: '100px',
     },
     prev_next: {
         position: 'absolute',
@@ -231,14 +240,14 @@ const useStyles = makeStyles(theme => ({
 
 function Founders() {
     const classes = useStyles()
-    const len = (3 - 1)
+    const numImgs = (3 - 1)
     const [index, setIndex] = React.useState(0)
 
     useEffect(() => {
         if (index > 0) $(`.${classes.prev}`).removeClass(classes.display_none)
         else $(`.${classes.prev}`).addClass(classes.display_none)
 
-        if (index < len) $(`.${classes.next}`).removeClass(classes.display_none)
+        if (index < numImgs) $(`.${classes.next}`).removeClass(classes.display_none)
         else $(`.${classes.next}`).addClass(classes.display_none)
 
         // Change Image
@@ -274,9 +283,7 @@ function Founders() {
         $(`.${classes.seek_hover}`).css({width: e.clientX + 'px'})
     }
 
-    const mouseDown = e => {
-        document.getElementsByClassName(classes.seek_bar_padding)[0].addEventListener('mousemove', mouseMoveB)
-
+    const slideShow = e => {
         // Move seek point and seek progress
         let left = e.clientX
 
@@ -288,24 +295,62 @@ function Founders() {
         $(`.${classes.seek_progress}`).css({width: e.clientX + 'px'})
 
         // Move images and content
-        $('#founders-images').css({left: (-(e.clientX / (window.innerWidth - 10)) * 100 * len) + '%'})
+        $('#founders-images').css({left: (-(e.clientX / (window.innerWidth - 11)) * 100 * numImgs) + '%'})
+
+        // Move dots and left right arrows
+        let dots = document.getElementsByClassName(classes.dots)
+        if (e.clientX < ((window.innerWidth - 11) / 2)) {
+            for (let i = 0; i < dots.length; i++) {
+                if (i === 0) dots[i].classList.add(classes.dots_active)
+                else dots[i].classList.remove(classes.dots_active)
+            }
+        }
+        else if (e.clientX < (window.innerWidth - 16)) {
+            for (let i = 0; i < dots.length; i++) {
+                if (i === 1) dots[i].classList.add(classes.dots_active)
+                else dots[i].classList.remove(classes.dots_active)
+            }
+        }
+        else {
+            for (let i = 0; i < dots.length; i++) {
+                if (i === 2) dots[i].classList.add(classes.dots_active)
+                else dots[i].classList.remove(classes.dots_active)
+            }
+        }
+    }
+
+    const mouseDown = e => {
+        document.getElementsByClassName(classes.for_seeking)[0].addEventListener('mousemove', mouseMoveB)
+        document.getElementsByClassName(classes.seek_bar_padding)[0].addEventListener('mousemove', mouseMoveB)
+        $('#founders-images').removeClass(classes.transition_image)
+        $(`.${classes.content}`).addClass(classes.bottom_zero)
+
+        slideShow(e)
     }
 
     const mouseMoveB = e => {
-        let left = e.clientX
+        if ( $(`.${classes.seek_point}`).hasClass(classes.display_none) )
+            $(`.${classes.seek_point}`).removeClass(classes.display_none)
 
-        if ((left - 8.5) < 0) left = 0
-        else if (left > (window.innerWidth - 27)) left = window.innerWidth - 27
-        else left -= 8.5
+        slideShow(e)
+    }
 
-        $(`.${classes.seek_point}`).css({left: left + 'px'})
-        $(`.${classes.seek_progress}`).css({width: e.clientX + 'px'})
-
-        $('#founders-images').css({left: (-(e.clientX / (window.innerWidth - 10)) * 100 * len) + '%'})
+    const reset = e => {
+        if ((e.clientX > (window.innerWidth - 11)) || (e.clientY < (window.innerHeight - 80)) || (e.clientY > (window.innerHeight - 105))) {
+            document.getElementsByClassName(classes.for_seeking)[0].removeEventListener('mousemove', mouseMoveB)
+            document.getElementsByClassName(classes.seek_bar_padding)[0].removeEventListener('mousemove', mouseMoveB)
+            $('#founders-images').addClass(classes.transition_image)
+        }
     }
 
     const mouseUp = () => {
+        document.getElementsByClassName(classes.for_seeking)[0].removeEventListener('mousemove', mouseMoveB)
         document.getElementsByClassName(classes.seek_bar_padding)[0].removeEventListener('mousemove', mouseMoveB)
+        $('#founders-images').addClass(classes.transition_image)
+    }
+
+    const hideSeekPoint = () => {
+        $(`.${classes.seek_point}`).addClass(classes.display_none)
     }
 
     return (
@@ -314,7 +359,7 @@ function Founders() {
                 <h3 className={classes.the_founders}>The Founders</h3>
             </div>
 
-            <div id="founders-images" className={classes.founders_images}>
+            <div id="founders-images" className={`${classes.founders_images} ${classes.transition_image}`}>
                 <div className={`${classes.images} ${classes.foun_1}`}>
                     <div className={classes.content}>
                         <h3 className={classes.name}>Joel Moore</h3>
@@ -385,6 +430,7 @@ function Founders() {
                 onMouseUp={mouseUp}
             >
             </div>
+            <div className={classes.for_seeking} onMouseUp={hideSeekPoint} onMouseLeave={reset}></div>
 
             <div className={classes.dots_wrapper}>
                 <div className={classes.dots} onClick={() => {setIndex(0)}}></div>
