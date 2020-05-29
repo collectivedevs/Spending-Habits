@@ -67,16 +67,14 @@ function DescriptionFeatures() {
         let images = [classes.img_1, classes.img_2, classes.img_3, classes.img_4, classes.img_5]
         let i = 1
         let j = 0
-        let interval = 0
-            
-        setInterval(() => {
-            if (document.getElementsByClassName(images[j])[0]) {
+        let interval = setInterval(() => {
+            // if (document.getElementsByClassName(images[j])[0]) {
                 document.getElementsByClassName(images[j])[0].classList.toggle(classes.opacity_zero)
                 document.getElementsByClassName(images[i])[0].classList.toggle(classes.opacity_zero)
                 
                 j = i
                 i === (images.length - 1) ? i = 0 : i++
-            }
+            // }
         }, 10500)
 
         return () => {

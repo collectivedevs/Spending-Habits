@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
         right: '0%',
         top: 'calc(100% + 437.19px)',
         minHeight: '100%',
-        background: '#EEE',
+        backgroundColor: '#152433',
         fontFamily: '"Lato", sans-serif',
         userSelect: 'none',
         zIndex: 2,
@@ -119,15 +119,15 @@ const useStyles = makeStyles(theme => ({
     },
     seek_bar: {
         position: 'absolute',
-        left: '0%',
-        width: '100%',
+        left: '18px',
+        width: 'calc(100% - 36px)',
         top: 'calc(100% - 80px)',
         height: '5px',
         backgroundColor: '#FFC0C0',
     },
     seek_hover: {
         position: 'absolute',
-        left: 0,
+        left: '18px',
         width: 0,
         top: 'calc(100% - 80px)',
         height: '5px',
@@ -135,7 +135,7 @@ const useStyles = makeStyles(theme => ({
     },
     seek_progress: {
         position: 'absolute',
-        left: 0,
+        left: '18px',
         width: 0,
         top: 'calc(100% - 80px)',
         height: '5px',
@@ -143,10 +143,10 @@ const useStyles = makeStyles(theme => ({
     },
     seek_point: {
         position: 'absolute',
-        left: 0,
-        top: 'calc(100% - 86px)',
-        height: '17px',
-        width: '17px',
+        left: '10px',
+        top: 'calc(100% - 85.5px)',
+        height: '16px',
+        width: '16px',
         borderRadius: '50%',
         backgroundColor: '#F00',
         zIndex: 3,
@@ -156,8 +156,8 @@ const useStyles = makeStyles(theme => ({
     },
     seek_bar_padding: {
         position: 'absolute',
-        left: '0%',
-        width: '100%',
+        left: '18px',
+        width: 'calc(100% - 35px)',
         top: 'calc(100% - 100px)',
         height: '35px',
         backgroundColor: 'rgba(0, 0, 0, 0)',
@@ -169,8 +169,8 @@ const useStyles = makeStyles(theme => ({
     for_seeking: {
         position: 'absolute',
         top: 'calc(100% - 200px)',
-        left: 0,
-        width: '100%',
+        left: '18px',
+        width: 'calc(100% - 35px)',
         height: '100px',
     },
     prev_next: {
@@ -280,43 +280,42 @@ function Founders() {
     }
 
     const mouseMoveA = e => {
-        $(`.${classes.seek_hover}`).css({width: e.clientX + 'px'})
+        $(`.${classes.seek_hover}`).css({width: (e.clientX - 18) + 'px'})
     }
 
     const slideShow = e => {
-        // Move seek point and seek progress
-        let left = e.clientX
+        // if (e.clientX >= 8 && e.clientX <= (window.innerWidth - 28)) {
+            // Move seek point and seek progress
+            let x = e.clientX - 18
+            console.log(x)
 
-        if ((left - 8.5) < 0) left = 0
-        else if (left > (window.innerWidth - 27)) left = window.innerWidth - 27
-        else left -= 8.5
+            $(`.${classes.seek_point}`).css({left: (x + 10) + 'px'})
+            $(`.${classes.seek_progress}`).css({width: x + 'px'})
 
-        $(`.${classes.seek_point}`).css({left: left + 'px'})
-        $(`.${classes.seek_progress}`).css({width: e.clientX + 'px'})
+            // Move images and content
+            $('#founders-images').css({left: (-(x / (window.innerWidth - 46)) * 100 * numImgs) + '%'})
 
-        // Move images and content
-        $('#founders-images').css({left: (-(e.clientX / (window.innerWidth - 11)) * 100 * numImgs) + '%'})
-
-        // Move dots and left right arrows
-        let dots = document.getElementsByClassName(classes.dots)
-        if (e.clientX < ((window.innerWidth - 11) / 2)) {
-            for (let i = 0; i < dots.length; i++) {
-                if (i === 0) dots[i].classList.add(classes.dots_active)
-                else dots[i].classList.remove(classes.dots_active)
+            // Move dots and left right arrows
+            let dots = document.getElementsByClassName(classes.dots)
+            if (x < ((window.innerWidth - 47) / 2)) {
+                for (let i = 0; i < dots.length; i++) {
+                    if (i === 0) dots[i].classList.add(classes.dots_active)
+                    else dots[i].classList.remove(classes.dots_active)
+                }
             }
-        }
-        else if (e.clientX < (window.innerWidth - 16)) {
-            for (let i = 0; i < dots.length; i++) {
-                if (i === 1) dots[i].classList.add(classes.dots_active)
-                else dots[i].classList.remove(classes.dots_active)
+            else if (x < (window.innerWidth - 47)) {
+                for (let i = 0; i < dots.length; i++) {
+                    if (i === 1) dots[i].classList.add(classes.dots_active)
+                    else dots[i].classList.remove(classes.dots_active)
+                }
             }
-        }
-        else {
-            for (let i = 0; i < dots.length; i++) {
-                if (i === 2) dots[i].classList.add(classes.dots_active)
-                else dots[i].classList.remove(classes.dots_active)
+            else {
+                for (let i = 0; i < dots.length; i++) {
+                    if (i === 2) dots[i].classList.add(classes.dots_active)
+                    else dots[i].classList.remove(classes.dots_active)
+                }
             }
-        }
+        // }
     }
 
     const mouseDown = e => {
@@ -336,10 +335,11 @@ function Founders() {
     }
 
     const reset = e => {
-        if ((e.clientX > (window.innerWidth - 11)) || (e.clientY < (window.innerHeight - 80)) || (e.clientY > (window.innerHeight - 105))) {
+        if ((e.clientX > (window.innerWidth - 11)) || (e.clientY < (window.innerHeight - 105))) {
             document.getElementsByClassName(classes.for_seeking)[0].removeEventListener('mousemove', mouseMoveB)
             document.getElementsByClassName(classes.seek_bar_padding)[0].removeEventListener('mousemove', mouseMoveB)
             $('#founders-images').addClass(classes.transition_image)
+            $(`.${classes.seek_point}`).addClass(classes.display_none)
         }
     }
 
