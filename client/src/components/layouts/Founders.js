@@ -114,7 +114,7 @@ const useStyles = makeStyles(theme => ({
     display_none: {
         display: 'none',
     },
-    transition_image: {
+    transition: {
         transition: '0.4s ease-in',
     },
     seek_bar: {
@@ -243,13 +243,13 @@ function Founders() {
     const numImgs = (3 - 1)
     const [index, setIndex] = React.useState(0)
 
+    const setIndexHelper = value => {
+        if (value < 0) value = numImgs
+        else if (value > numImgs) value = 0
+        setIndex(value)
+    }
+
     useEffect(() => {
-        if (index > 0) $(`.${classes.prev}`).removeClass(classes.display_none)
-        else $(`.${classes.prev}`).addClass(classes.display_none)
-
-        if (index < numImgs) $(`.${classes.next}`).removeClass(classes.display_none)
-        else $(`.${classes.next}`).addClass(classes.display_none)
-
         // Change Image
         $('#founders-images').css({left: (0 - (index * 100)) + '%'})
 
@@ -266,8 +266,22 @@ function Founders() {
             if (index === i) dots[i].classList.add(classes.dots_active)
             else dots[i].classList.remove(classes.dots_active)
         }
+
+        //Move seek point and seek progress
+        if (index === 0) {
+            $(`.${classes.seek_point}`).css({left: '10px'})
+            $(`.${classes.seek_progress}`).css({width: '0px'})
+        }
+        else if (index === 1) {
+            $(`.${classes.seek_point}`).css({left: (((window.innerWidth - 46) / 2) + 10) + 'px'})
+            $(`.${classes.seek_progress}`).css({width: ((window.innerWidth - 46) / 2) + 'px'})
+        }
+        else {
+            $(`.${classes.seek_point}`).css({left: (window.innerWidth - 36) + 'px'})
+            $(`.${classes.seek_progress}`).css({width: (window.innerWidth - 46) + 'px'})
+        }
     },
-    [index] // Only re-run the effect if index changes
+    [index] // Only re-run the effect if @index or @decision changes
     )
 
     const mouseEnter = () => {
@@ -284,44 +298,46 @@ function Founders() {
     }
 
     const slideShow = e => {
-        // if (e.clientX >= 8 && e.clientX <= (window.innerWidth - 28)) {
-            // Move seek point and seek progress
-            let x = e.clientX - 18
-            console.log(x)
+        let x = e.clientX - 18
 
-            $(`.${classes.seek_point}`).css({left: (x + 10) + 'px'})
-            $(`.${classes.seek_progress}`).css({width: x + 'px'})
+        // Move seek point and seek progress
+        $(`.${classes.seek_point}`).css({left: (x + 10) + 'px'})
+        $(`.${classes.seek_progress}`).css({width: x + 'px'})
 
-            // Move images and content
-            $('#founders-images').css({left: (-(x / (window.innerWidth - 46)) * 100 * numImgs) + '%'})
+        // Move images and content
+        $('#founders-images').css({left: (-(x / (window.innerWidth - 46)) * 100 * numImgs) + '%'})
 
-            // Move dots and left right arrows
-            let dots = document.getElementsByClassName(classes.dots)
-            if (x < ((window.innerWidth - 47) / 2)) {
-                for (let i = 0; i < dots.length; i++) {
-                    if (i === 0) dots[i].classList.add(classes.dots_active)
-                    else dots[i].classList.remove(classes.dots_active)
-                }
+        // Move dots
+        let dots = document.getElementsByClassName(classes.dots)
+        if (x < ((window.innerWidth - 47) / 2)) {
+            for (let i = 0; i < dots.length; i++) {
+                if (i === 0) dots[i].classList.add(classes.dots_active)
+                else dots[i].classList.remove(classes.dots_active)
             }
-            else if (x < (window.innerWidth - 47)) {
-                for (let i = 0; i < dots.length; i++) {
-                    if (i === 1) dots[i].classList.add(classes.dots_active)
-                    else dots[i].classList.remove(classes.dots_active)
-                }
+            if (index !== 0) setIndex(0)
+        }
+        else if (x < (window.innerWidth - 47)) {
+            for (let i = 0; i < dots.length; i++) {
+                if (i === 1) dots[i].classList.add(classes.dots_active)
+                else dots[i].classList.remove(classes.dots_active)
             }
-            else {
-                for (let i = 0; i < dots.length; i++) {
-                    if (i === 2) dots[i].classList.add(classes.dots_active)
-                    else dots[i].classList.remove(classes.dots_active)
-                }
+            if (index !== 1) setIndex(1)
+        }
+        else {
+            for (let i = 0; i < dots.length; i++) {
+                if (i === 2) dots[i].classList.add(classes.dots_active)
+                else dots[i].classList.remove(classes.dots_active)
             }
-        // }
+            if (index !== 2) setIndex(2)
+        }
     }
 
     const mouseDown = e => {
         document.getElementsByClassName(classes.for_seeking)[0].addEventListener('mousemove', mouseMoveB)
         document.getElementsByClassName(classes.seek_bar_padding)[0].addEventListener('mousemove', mouseMoveB)
-        $('#founders-images').removeClass(classes.transition_image)
+        $('#founders-images').removeClass(classes.transition)
+        $(`.${classes.seek_progress}`).removeClass(classes.transition)
+        $(`.${classes.seek_point}`).removeClass(classes.transition)
         $(`.${classes.content}`).addClass(classes.bottom_zero)
 
         slideShow(e)
@@ -338,7 +354,11 @@ function Founders() {
         if ((e.clientX > (window.innerWidth - 11)) || (e.clientY < (window.innerHeight - 105))) {
             document.getElementsByClassName(classes.for_seeking)[0].removeEventListener('mousemove', mouseMoveB)
             document.getElementsByClassName(classes.seek_bar_padding)[0].removeEventListener('mousemove', mouseMoveB)
-            $('#founders-images').addClass(classes.transition_image)
+
+            $('#founders-images').addClass(classes.transition)
+            $(`.${classes.seek_progress}`).addClass(classes.transition)
+            $(`.${classes.seek_point}`).addClass(classes.transition)
+            
             $(`.${classes.seek_point}`).addClass(classes.display_none)
         }
     }
@@ -346,7 +366,10 @@ function Founders() {
     const mouseUp = () => {
         document.getElementsByClassName(classes.for_seeking)[0].removeEventListener('mousemove', mouseMoveB)
         document.getElementsByClassName(classes.seek_bar_padding)[0].removeEventListener('mousemove', mouseMoveB)
-        $('#founders-images').addClass(classes.transition_image)
+
+        $('#founders-images').addClass(classes.transition)
+        $(`.${classes.seek_progress}`).addClass(classes.transition)
+        $(`.${classes.seek_point}`).addClass(classes.transition)
     }
 
     const hideSeekPoint = () => {
@@ -359,7 +382,7 @@ function Founders() {
                 <h3 className={classes.the_founders}>The Founders</h3>
             </div>
 
-            <div id="founders-images" className={`${classes.founders_images} ${classes.transition_image}`}>
+            <div id="founders-images" className={`${classes.founders_images} ${classes.transition}`}>
                 <div className={`${classes.images} ${classes.foun_1}`}>
                     <div className={classes.content}>
                         <h3 className={classes.name}>Joel Moore</h3>
@@ -398,8 +421,8 @@ function Founders() {
             <Fab
                 size="small"
                 aria-label="prev"
-                className={`${classes.prev_next} ${classes.prev} ${classes.display_none}`}
-                onClick={() => {setIndex(index - 1)}}
+                className={`${classes.prev_next} ${classes.prev}`}
+                onClick={() => {setIndexHelper(index - 1)}}
             >
                 <ChevronLeftIcon />
             </Fab>
@@ -407,16 +430,16 @@ function Founders() {
                 size="small"
                 aria-label="next"
                 className={`${classes.prev_next} ${classes.next}`}
-                onClick={() => {setIndex(index + 1)}}
+                onClick={() => {setIndexHelper(index + 1)}}
             >
                 <ChevronRightIcon />
             </Fab>
 
             <div className={classes.seek_bar}></div>
             <div className={classes.seek_hover}></div>
-            <div className={classes.seek_progress}></div>
+            <div className={`${classes.seek_progress} ${classes.transition}`}></div>
             <div
-                className={`${classes.seek_point} ${classes.display_none}`}
+                className={`${classes.seek_point} ${classes.transition} ${classes.display_none}`}
                 onMouseEnter={mouseEnter}
                 onMouseLeave={mouseLeave}
             >
