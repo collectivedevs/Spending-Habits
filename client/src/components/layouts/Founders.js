@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import $ from 'jquery'
 import { Fab } from '@material-ui/core'
@@ -107,6 +107,19 @@ const useStyles = makeStyles(theme => ({
         marginRight: '10px',
         marginTop: '20px',
         marginBottom: '15px',
+    },
+    hover_name: {
+        position: 'absolute',
+        top: 'calc(100% - 130px)',
+        padding: '5px',
+        fontSize: '8px',
+        letterSpacing: '2px',
+        textTransform: 'uppercase',
+        color: '#EEE',
+        backgroundColor: '#282E34',
+        border: '1px solid #FAFAFA',
+        borderRadius: '5px',
+        boxShadow: '0px 0px 1px #FFF, 0px 0px 2px #FFF',
     },
     bottom_zero: {
         bottom: '0%',
@@ -243,36 +256,37 @@ function Founders() {
     const numImgs = (3 - 1)
     const [index, setIndex] = React.useState(0)
 
-    const setIndexHelper = value => {
-        if (value < 0) value = numImgs
-        else if (value > numImgs) value = 0
-        setIndex(value)
-    }
-
-    useEffect(() => {
+    const switchImage = value => {
         // Change Image
-        $('#founders-images').css({left: (0 - (index * 100)) + '%'})
+        $('#founders-images').css({left: (0 - (value * 100)) + '%'})
 
-        // Raise content
+        // Raise content; Change active dot, prev & next buttons
         let contents = document.getElementsByClassName(classes.content)
-        for (let i = 0; i < contents.length; i++) {
-            if (index === i) contents[i].classList.add(classes.bottom_zero)
-            else contents[i].classList.remove(classes.bottom_zero)
-        }
-
-        // Change Active Dot
         let dots = document.getElementsByClassName(classes.dots)
+        let prevs = document.getElementsByClassName(classes.prev)
+        let nexts = document.getElementsByClassName(classes.next)
+
         for (let i = 0; i < dots.length; i++) {
-            if (index === i) dots[i].classList.add(classes.dots_active)
-            else dots[i].classList.remove(classes.dots_active)
+            if (value === i) {
+                contents[i].classList.add(classes.bottom_zero)
+                dots[i].classList.add(classes.dots_active)
+                prevs[i].classList.remove(classes.display_none)
+                nexts[i].classList.remove(classes.display_none)
+            }
+            else {
+                contents[i].classList.remove(classes.bottom_zero)
+                dots[i].classList.remove(classes.dots_active)
+                prevs[i].classList.add(classes.display_none)
+                nexts[i].classList.add(classes.display_none)
+            }
         }
 
         //Move seek point and seek progress
-        if (index === 0) {
+        if (value === 0) {
             $(`.${classes.seek_point}`).css({left: '10px'})
             $(`.${classes.seek_progress}`).css({width: '0px'})
         }
-        else if (index === 1) {
+        else if (value === 1) {
             $(`.${classes.seek_point}`).css({left: (((window.innerWidth - 46) / 2) + 10) + 'px'})
             $(`.${classes.seek_progress}`).css({width: ((window.innerWidth - 46) / 2) + 'px'})
         }
@@ -280,10 +294,8 @@ function Founders() {
             $(`.${classes.seek_point}`).css({left: (window.innerWidth - 36) + 'px'})
             $(`.${classes.seek_progress}`).css({width: (window.innerWidth - 46) + 'px'})
         }
-    },
-    [index] // Only re-run the effect if @index or @decision changes
-    )
-
+    }
+    
     const mouseEnter = () => {
         $(`.${classes.seek_point}`).removeClass(classes.display_none)
     }
@@ -291,10 +303,35 @@ function Founders() {
     const mouseLeave = () => {
         $(`.${classes.seek_point}`).addClass(classes.display_none)
         $(`.${classes.seek_hover}`).css({width: 0})
+        $(`.${classes.hover_name}`).addClass(classes.display_none)
+    }
+
+    const moveHoverName = e => {
+        $(`.${classes.hover_name}`).removeClass(classes.display_none)
+
+        let hoverName = document.getElementsByClassName(classes.hover_name)[0]
+        if ( (e.clientX - 18) < ((window.innerWidth - 47) / 2) ) {
+            hoverName.innerHTML = 'Joel Moore'
+        }
+        else if ( (e.clientX - 18) < (window.innerWidth - 47) ) {
+            hoverName.innerHTML = 'Rich Prosper'
+        }
+        else {
+            hoverName.innerHTML = 'Paula Ramírez'
+        }
+
+        let width = hoverName.scrollWidth / 3
+        let left = e.clientX - 18 - width
+        let right = window.innerWidth - 47 - (hoverName.scrollWidth * 2 / 3)
+
+        if (left < 0) left = 0
+        else if (left > right) left = right
+        $(`.${classes.hover_name}`).css({left: left + 'px'})
     }
 
     const mouseMoveA = e => {
         $(`.${classes.seek_hover}`).css({width: (e.clientX - 18) + 'px'})
+        moveHoverName(e)
     }
 
     const slideShow = e => {
@@ -307,28 +344,52 @@ function Founders() {
         // Move images and content
         $('#founders-images').css({left: (-(x / (window.innerWidth - 46)) * 100 * numImgs) + '%'})
 
-        // Move dots
+        // Change active dot, prev & next buttons
         let dots = document.getElementsByClassName(classes.dots)
+        let prevs = document.getElementsByClassName(classes.prev)
+        let nexts = document.getElementsByClassName(classes.next)
+
         if (x < ((window.innerWidth - 47) / 2)) {
             for (let i = 0; i < dots.length; i++) {
-                if (i === 0) dots[i].classList.add(classes.dots_active)
-                else dots[i].classList.remove(classes.dots_active)
+                if (i === 0) {
+                    dots[i].classList.add(classes.dots_active)
+                    prevs[i].classList.remove(classes.display_none)
+                    nexts[i].classList.remove(classes.display_none)
+                }
+                else {
+                    dots[i].classList.remove(classes.dots_active)
+                    prevs[i].classList.add(classes.display_none)
+                    nexts[i].classList.add(classes.display_none)
+                }
             }
-            if (index !== 0) setIndex(0)
         }
         else if (x < (window.innerWidth - 47)) {
             for (let i = 0; i < dots.length; i++) {
-                if (i === 1) dots[i].classList.add(classes.dots_active)
-                else dots[i].classList.remove(classes.dots_active)
+                if (i === 1) {
+                    dots[i].classList.add(classes.dots_active)
+                    prevs[i].classList.remove(classes.display_none)
+                    nexts[i].classList.remove(classes.display_none)
+                }
+                else {
+                    dots[i].classList.remove(classes.dots_active)
+                    prevs[i].classList.add(classes.display_none)
+                    nexts[i].classList.add(classes.display_none)
+                }
             }
-            if (index !== 1) setIndex(1)
         }
         else {
             for (let i = 0; i < dots.length; i++) {
-                if (i === 2) dots[i].classList.add(classes.dots_active)
-                else dots[i].classList.remove(classes.dots_active)
+                if (i === 2) {
+                    dots[i].classList.add(classes.dots_active)
+                    prevs[i].classList.remove(classes.display_none)
+                    nexts[i].classList.remove(classes.display_none)
+                }
+                else {
+                    dots[i].classList.remove(classes.dots_active)
+                    prevs[i].classList.add(classes.display_none)
+                    nexts[i].classList.add(classes.display_none)
+                }
             }
-            if (index !== 2) setIndex(2)
         }
     }
 
@@ -344,9 +405,8 @@ function Founders() {
     }
 
     const mouseMoveB = e => {
-        if ( $(`.${classes.seek_point}`).hasClass(classes.display_none) )
-            $(`.${classes.seek_point}`).removeClass(classes.display_none)
-
+        $(`.${classes.seek_point}`).removeClass(classes.display_none)
+        moveHoverName(e)
         slideShow(e)
     }
 
@@ -358,8 +418,8 @@ function Founders() {
             $('#founders-images').addClass(classes.transition)
             $(`.${classes.seek_progress}`).addClass(classes.transition)
             $(`.${classes.seek_point}`).addClass(classes.transition)
-            
             $(`.${classes.seek_point}`).addClass(classes.display_none)
+            $(`.${classes.hover_name}`).addClass(classes.display_none)
         }
     }
 
@@ -370,21 +430,23 @@ function Founders() {
         $('#founders-images').addClass(classes.transition)
         $(`.${classes.seek_progress}`).addClass(classes.transition)
         $(`.${classes.seek_point}`).addClass(classes.transition)
+        $(`.${classes.hover_name}`).addClass(classes.display_none)
     }
 
     const hideSeekPoint = () => {
         $(`.${classes.seek_point}`).addClass(classes.display_none)
     }
-
+ 
     return (
         <div id="founders" className={classes.founders_container} onMouseUp={mouseUp}>
             <div className={classes.the_founders_wrapper}>
                 <h3 className={classes.the_founders}>The Founders</h3>
             </div>
 
+            {/* FOUNDERS IMAGES */}
             <div id="founders-images" className={`${classes.founders_images} ${classes.transition}`}>
                 <div className={`${classes.images} ${classes.foun_1}`}>
-                    <div className={classes.content}>
+                    <div className={`${classes.content} ${classes.bottom_zero}`}>
                         <h3 className={classes.name}>Joel Moore</h3>
                         <small className={classes.job_role}>Lead Back End Developer</small>
                         <p className={classes.about}>
@@ -418,23 +480,60 @@ function Founders() {
                 </div>
             </div>
 
+            <div className={`${classes.hover_name} ${classes.display_none}`}>Joel Moore</div>
+
+            {/* PREV BUTTONS */}
             <Fab
                 size="small"
                 aria-label="prev"
                 className={`${classes.prev_next} ${classes.prev}`}
-                onClick={() => {setIndexHelper(index - 1)}}
+                onClick={() => {setIndex(numImgs); switchImage(numImgs);}}
             >
                 <ChevronLeftIcon />
             </Fab>
             <Fab
                 size="small"
+                aria-label="prev"
+                className={`${classes.prev_next} ${classes.prev} ${classes.display_none}`}
+                onClick={() => {setIndex(0); switchImage(0);}}
+            >
+                <ChevronLeftIcon />
+            </Fab>
+            <Fab
+                size="small"
+                aria-label="prev"
+                className={`${classes.prev_next} ${classes.prev} ${classes.display_none}`}
+                onClick={() => {setIndex(1); switchImage(1);}}
+            >
+                <ChevronLeftIcon />
+            </Fab>
+            {/* NEXT BUTTONS */}
+            <Fab
+                size="small"
                 aria-label="next"
                 className={`${classes.prev_next} ${classes.next}`}
-                onClick={() => {setIndexHelper(index + 1)}}
+                onClick={() => {setIndex(1); switchImage(1);}}
+            >
+                <ChevronRightIcon />
+            </Fab>
+            <Fab
+                size="small"
+                aria-label="next"
+                className={`${classes.prev_next} ${classes.next} ${classes.display_none}`}
+                onClick={() => {setIndex(2); switchImage(2);}}
+            >
+                <ChevronRightIcon />
+            </Fab>
+            <Fab
+                size="small"
+                aria-label="next"
+                className={`${classes.prev_next} ${classes.next} ${classes.display_none}`}
+                onClick={() => {setIndex(0); switchImage(0);}}
             >
                 <ChevronRightIcon />
             </Fab>
 
+            {/* SEEKING */}
             <div className={classes.seek_bar}></div>
             <div className={classes.seek_hover}></div>
             <div className={`${classes.seek_progress} ${classes.transition}`}></div>
@@ -455,10 +554,11 @@ function Founders() {
             </div>
             <div className={classes.for_seeking} onMouseUp={hideSeekPoint} onMouseLeave={reset}></div>
 
+            {/* DOTS */}
             <div className={classes.dots_wrapper}>
-                <div className={classes.dots} onClick={() => {setIndex(0)}}></div>
-                <div className={classes.dots} onClick={() => {setIndex(1)}}></div>
-                <div className={classes.dots} onClick={() => {setIndex(2)}}></div>
+                <div className={`${classes.dots} ${classes.dots_active}`} onClick={() => {setIndex(0); switchImage(0);}}></div>
+                <div className={classes.dots} onClick={() => {setIndex(1); switchImage(1);}}></div>
+                <div className={classes.dots} onClick={() => {setIndex(2); switchImage(2);}}></div>
             </div>
         </div>
     )
