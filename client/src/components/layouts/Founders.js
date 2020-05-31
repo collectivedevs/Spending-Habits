@@ -4,10 +4,9 @@ import $ from 'jquery'
 import { Fab } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import foun_1 from '../../images/founders-images/foun_1.jpg'
-import foun_2 from '../../images/founders-images/foun_2.jpg'
-import foun_3 from '../../images/founders-images/foun_3.jpg'
-
+import { Foun_1 } from '../../images/founders-images/Foun_1'
+import { Foun_2 } from '../../images/founders-images/Foun_2'
+import { Foun_3 } from '../../images/founders-images/Foun_3'
 
 const useStyles = makeStyles(theme => ({
     founders_container: {
@@ -51,25 +50,25 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         height: '100%',
     },
-    foun_1: {
+    Foun_1: {
         left: '0%',
-        background: `url(${foun_1})`,
+        background: `url(${Foun_1})`,
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
     },
-    foun_2: {
+    Foun_2: {
         left: '100%',
-        background: `url(${foun_2})`,
+        background: `url(${Foun_2})`,
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
     },
-    foun_3: {
+    Foun_3: {
         left: '200%',
-        background: `url(${foun_3})`,
+        background: `url(${Foun_3})`,
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -445,7 +444,7 @@ function Founders() {
 
             {/* FOUNDERS IMAGES */}
             <div id="founders-images" className={`${classes.founders_images} ${classes.transition}`}>
-                <div className={`${classes.images} ${classes.foun_1}`}>
+                <div className={`${classes.images} ${classes.Foun_1}`}>
                     <div className={`${classes.content} ${classes.bottom_zero}`}>
                         <h3 className={classes.name}>Joel Moore</h3>
                         <small className={classes.job_role}>Lead Back End Developer</small>
@@ -456,7 +455,7 @@ function Founders() {
                         </p>
                     </div>
                 </div>
-                <div className={`${classes.images} ${classes.foun_2}`}>
+                <div className={`${classes.images} ${classes.Foun_2}`}>
                     <div className={classes.content}>
                         <h3 className={classes.name}>Rich Prosper</h3>
                         <small className={classes.job_role}>Lead Front End Developer</small>
@@ -467,7 +466,7 @@ function Founders() {
                         </p>
                     </div>
                 </div>
-                <div className={`${classes.images} ${classes.foun_3}`}>
+                <div className={`${classes.images} ${classes.Foun_3}`}>
                     <div className={classes.content}>
                         <h3 className={classes.name}>Paula Ramírez</h3>
                         <small className={classes.job_role}>Full Stack Developer</small>

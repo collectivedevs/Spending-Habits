@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import iphone from '../../images/landing-page-images/iphone.jpg'
-import notebook from '../../images/landing-page-images/notebook.jpg'
-import sackcloth from '../../images/landing-page-images/sackcloth.jpg'
-import business from '../../images/landing-page-images/business.jpg'
-import chart from '../../images/landing-page-images/chart.jpg'
+import { Business } from '../../images/landing-page-images/Business'
+import { Chart } from '../../images/landing-page-images/Chart'
+import { Iphone } from '../../images/landing-page-images/Iphone'
+import { Notebook } from '../../images/landing-page-images/Notebook'
+import { Sackcloth } from '../../images/landing-page-images/Sackcloth'
 import DFContent from './DFContent'
 
 const useStyles = makeStyles(theme => ({
@@ -21,35 +21,35 @@ const useStyles = makeStyles(theme => ({
         transition: '2.5s',
     },
     img_1: {
-        background: `url(${iphone})`,
+        background: `url(${Business})`,
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
     },
     img_2: {
-        background: `url(${notebook})`,
+        background: `url(${Chart})`,
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
     },
     img_3: {
-        background: `url(${sackcloth})`,
+        background: `url(${Iphone})`,
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
     },
     img_4: {
-        background: `url(${business})`,
+        background: `url(${Notebook})`,
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
     },
     img_5: {
-        background: `url(${chart})`,
+        background: `url(${Sackcloth})`,
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -68,13 +68,11 @@ function DescriptionFeatures() {
         let i = 1
         let j = 0
         let interval = setInterval(() => {
-            // if (document.getElementsByClassName(images[j])[0]) {
-                document.getElementsByClassName(images[j])[0].classList.toggle(classes.opacity_zero)
-                document.getElementsByClassName(images[i])[0].classList.toggle(classes.opacity_zero)
-                
-                j = i
-                i === (images.length - 1) ? i = 0 : i++
-            // }
+            document.getElementsByClassName(images[j])[0].classList.toggle(classes.opacity_zero)
+            document.getElementsByClassName(images[i])[0].classList.toggle(classes.opacity_zero)
+            
+            j = i
+            i === (images.length - 1) ? i = 0 : i++
         }, 10500)
 
         return () => {
