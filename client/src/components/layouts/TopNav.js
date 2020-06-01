@@ -162,7 +162,7 @@ function TopNav() {
                     </ListItem>
                     <ListItem
                         button
-                        onClick={toggleDropdown}
+                        onClick={() => {toggleDropdown(); window.location.href = "#contact-us";}}
                     >
                         <ListItemIcon><PhoneIcon /></ListItemIcon>
                         <ListItemText primary="Contact Us" />
