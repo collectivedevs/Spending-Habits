@@ -4,11 +4,11 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(theme => ({
     mouse_circle: {
         position: 'absolute',
-        zIndex: 4,
+        zIndex: 1200,
         width: '30px',
         height: '30px',
         borderRadius: '50%',
-        backgroundColor: 'rgba(0, 0, 0, 0.07)',
+        backgroundColor: 'rgba(0, 0, 0, 0.04)',
         opacity: 0,
         pointerEvents: 'none',
     },

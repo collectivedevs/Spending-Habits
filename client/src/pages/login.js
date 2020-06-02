@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import AppIcon from "../images/logo192.png";
 
@@ -14,6 +14,8 @@ import { userContext } from "../contexts/userContext";
 
 // Actions
 import { loginUser } from "../actions/userAction";
+
+import Navbar from "../components/layouts/Navbar";
 
 const styles = (theme) => ({
   // We use the styles object in the theme which holds all the styling except palette - https://stackoverflow.com/questions/56897838/getting-a-error-typeerror-color-charat-is-not-a-function-in-c-node-modul
@@ -117,67 +119,70 @@ class login extends Component {
     const errors = this.state.errors;
 
     return (
-      <Grid container className={classes.form}>
-        <Grid item sm />
-        <Grid item sm>
-          <img src={AppIcon} alt="Logo" className={classes.logo} />
-          <Typography variant="h2" className={classes.pageTitle}>
-            Login
-          </Typography>
-          <form noValidate onSubmit={this.handleSubmit}>
-            <TextField
-              color="secondary"
-              id="email"
-              name="email"
-              type="email"
-              label="Email"
-              className={classes.TextField}
-              helperText={errors.email}
-              error={errors.email ? true : false}
-              value={this.state.email}
-              onChange={this.handleChange}
-              fullWidth
-            />
-            <TextField
-              color="secondary"
-              id="password"
-              name="password"
-              type="password"
-              label="Password"
-              className={classes.TextField}
-              helperText={errors.password}
-              error={errors.password ? true : false}
-              value={this.state.password}
-              onChange={this.handleChange}
-              fullWidth
-            />
-
-            {errors.general && (
-              <Typography variant="body2" className={classes.customError}>
-                {errors.general}
-              </Typography>
-            )}
-
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              disabled={loading}
-            >
+      <Fragment>
+        <Navbar />
+        <Grid container className={classes.form}>
+          <Grid item sm />
+          <Grid item sm>
+            <img src={AppIcon} alt="Logo" className={classes.logo} />
+            <Typography variant="h2" className={classes.pageTitle}>
               Login
-              {loading && (
-                <CircularProgress size={30} className={classes.progress} />
+            </Typography>
+            <form noValidate onSubmit={this.handleSubmit}>
+              <TextField
+                color="secondary"
+                id="email"
+                name="email"
+                type="email"
+                label="Email"
+                className={classes.TextField}
+                helperText={errors.email}
+                error={errors.email ? true : false}
+                value={this.state.email}
+                onChange={this.handleChange}
+                fullWidth
+              />
+              <TextField
+                color="secondary"
+                id="password"
+                name="password"
+                type="password"
+                label="Password"
+                className={classes.TextField}
+                helperText={errors.password}
+                error={errors.password ? true : false}
+                value={this.state.password}
+                onChange={this.handleChange}
+                fullWidth
+              />
+
+              {errors.general && (
+                <Typography variant="body2" className={classes.customError}>
+                  {errors.general}
+                </Typography>
               )}
-            </Button>
-            <br></br>
-            <small>
-              dont have an account ? Sign up <Link to="/signup">here</Link>
-            </small>
-          </form>
+
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                disabled={loading}
+              >
+                Login
+                {loading && (
+                  <CircularProgress size={30} className={classes.progress} />
+                )}
+              </Button>
+              <br></br>
+              <small>
+                Dont have an account ? Sign up <Link to="/signup">here</Link>
+              </small>
+            </form>
+          </Grid>
+          <Grid item sm />
         </Grid>
-        <Grid item sm />
-      </Grid>
+      </Fragment>
     );
   }
 }
