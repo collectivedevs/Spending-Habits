@@ -17,12 +17,12 @@ export class home extends Component {
   static contextType = userContext;
 
   componentDidMount() {
-    const [{}, dispatch] = this.context;
+    const [ , dispatch] = this.context;
     getTransactions(dispatch);
   }
 
   render() {
-    const { transactions, loading } = this.context;
+    const { loading } = this.context;
     let recentTransactionMarkup = !loading ? (
      <Transactions/>
     ) : (

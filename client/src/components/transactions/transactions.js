@@ -4,7 +4,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 //import Axios from "axios";
 import TransactionSkeleton from "./transactionSkeleton";
 import TransactionTable from "./transactionTable";
-import CustomButton from "../../util/customButton";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -12,14 +11,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import Select from "@material-ui/core/Select";
 import { Grid } from "@material-ui/core";
-
-// Icons
-import AddCircle from "@material-ui/icons/AddCircle";
 
 // Actions
 import { logoutUser } from "../../actions/userAction";
@@ -27,8 +20,6 @@ import { getTransactions, createTransaction } from "../../actions/dataAction";
 
 // Context
 import { userContext } from "../../contexts/userContext";
-
-
 
 const styles = (theme) => ({
   ...theme.styles,
@@ -49,7 +40,7 @@ class Transactions extends Component {
 
   componentDidMount() {
 
-    const [{}, dispatch] = this.context;
+    const [ , dispatch] = this.context;
 
     getTransactions(dispatch);
   }
@@ -63,7 +54,7 @@ class Transactions extends Component {
       expenseType: this.state.expenseType,
     };
 
-    const [ {}, dispatch ] = this.context;
+    const [ , dispatch ] = this.context;
 
     createTransaction(transactionData, dispatch);
   };
@@ -86,15 +77,14 @@ class Transactions extends Component {
     const [
       {
         user: {
-          credentials: { username, budget, quote, createdAt, imageUrl },
           loading,
-          authenticated,
         },
         data: {
           data_loading,
           transactions
         }
       },
+      dispatch
     ] = this.context;
 
     // let profileMarkup = !loading ? (
@@ -178,7 +168,7 @@ class Transactions extends Component {
 
         <Paper className={classes.paper}>
           <div className="transactions">
-            <TransactionTable data={transactions}/>
+            <TransactionTable data={transactions} dispatch={dispatch}/>
           </div>
         </Paper>
       </Fragment>

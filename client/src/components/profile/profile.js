@@ -18,7 +18,6 @@ import CalendarToday from "@material-ui/icons/CalendarToday";
 import EditIcon from "@material-ui/icons/Edit";
 import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
 import MoneyIcon from "@material-ui/icons/AttachMoney";
-import LinkIcon from "@material-ui/icons/Link";
 
 import { SET_AUTHENTICATED } from "../../types";
 
@@ -39,7 +38,7 @@ class Profile extends Component {
   static contextType = userContext;
 
   componentDidMount() {
-    const [{}, dispatch] = this.context;
+    const [ , dispatch] = this.context;
     const token = localStorage.FBIdToken;
 
     if (token) {
@@ -64,7 +63,7 @@ class Profile extends Component {
   }
 
   handleImageChange = (event) => {
-    const [{}, dispatch] = this.context;
+    const [ , dispatch] = this.context;
     const image = event.target.files[0];
     const formData = new FormData();
     formData.append("image", image, image.name);
@@ -77,7 +76,7 @@ class Profile extends Component {
   };
 
   handleLogout = () => {
-    const [{}, dispatch] = this.context;
+    const [ , dispatch] = this.context;
     logoutUser(dispatch);
   };
 
@@ -90,7 +89,6 @@ class Profile extends Component {
           credentials: {
             username,
             budget,
-            quote,
             createdAt,
             imageUrl,
           },

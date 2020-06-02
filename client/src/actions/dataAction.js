@@ -10,8 +10,6 @@ import {
     LOADING_UI
   } from "../types";
   import axios from "axios";
-
-  import {setAuthorizationHeader} from "./userAction";
   
   // Get all Transactions
   export const getTransactions = (dispatch) => {
@@ -72,7 +70,7 @@ import {
   // Delete a Transaction
   export const deleteTransaction = (transactionId, dispatch) => {
     axios
-      .delete(`/transaction/${transactionId}`)
+      .delete(`/transactions/${transactionId}`)
       .then(() => {
         dispatch({ type: DELETE_TRANSACTION, payload: transactionId });
       })

@@ -83,7 +83,7 @@ class signup extends Component {
       firstName: this.state.firstName,
       lastName: this.state.lastName
     };
-    const [ {}, dispatch ] = this.context;
+    const [ , dispatch ] = this.context;
     signupUser(newUserData, this.props.history, dispatch);
   };
 

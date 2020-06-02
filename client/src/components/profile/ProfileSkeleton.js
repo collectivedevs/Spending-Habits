@@ -7,7 +7,6 @@ import NoImg from "../../images/no-img.png";
 import Paper from "@material-ui/core/Paper";
 
 // Icons
-import LocationOn from "@material-ui/icons/LocationOn";
 import MoneyIcon from "@material-ui/icons/AttachMoney";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 

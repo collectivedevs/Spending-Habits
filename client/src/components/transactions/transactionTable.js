@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { lighten, makeStyles } from "@material-ui/core/styles";
@@ -21,12 +21,10 @@ import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
+// Actions
+import { deleteTransaction } from "../../actions/dataAction";
 
 import dayjs from "dayjs";
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -153,7 +151,36 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
-  const { numSelected } = props;
+  const {
+    numSelected,
+    transactions,
+    dispatch,
+    setSelectedTransactions,
+  } = props;
+
+  function transactionDeleteHandler() {
+    let dataLength = transactions.transactions.length;
+    let data = transactions.transactions;
+
+    let confirmDelete = window.confirm(
+      "Are you sure you want to delete these transactions?"
+    );
+
+    if (confirmDelete) {
+      let transactionIndex;
+      let newTransactions;
+
+      for (let i = 0; i < dataLength; i++) {
+        deleteTransaction(data[i], dispatch);
+
+        transactionIndex = data.indexOf(data[i]);
+        newTransactions = data;
+
+        newTransactions.splice(transactionIndex, 1);
+        setSelectedTransactions({ transactions: newTransactions });
+      }
+    }
+  }
 
   return (
     <Toolbar
@@ -183,7 +210,7 @@ const EnhancedTableToolbar = (props) => {
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete">
+          <IconButton aria-label="delete" onClick={transactionDeleteHandler}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -231,16 +258,14 @@ export default function TransactionTable(props) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("expenseType");
   const [selected, setSelected] = React.useState([]);
+  const [selectedTransactions, setSelectedTransactions] = React.useState({
+    transactions: [],
+  });
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  
   const rows = props.data;
-  console.log(`transaction data => ${JSON.stringify(rows)}`);
-  
-   
-  
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -260,7 +285,8 @@ export default function TransactionTable(props) {
   const handleClick = (event, transactionId) => {
     const selectedIndex = selected.indexOf(transactionId);
     let newSelected = [];
-
+    let newTransactions = [];
+    let transactionIndex = 0;
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, transactionId);
     } else if (selectedIndex === 0) {
@@ -275,6 +301,27 @@ export default function TransactionTable(props) {
     }
 
     setSelected(newSelected);
+
+    const transactionFound = selectedTransactions.transactions.find(
+      (trans) => trans === transactionId
+    );
+
+    // If transaction is found it means this transaction is being unchecked
+    // so we find its index in the array and remove it
+    if (transactionFound) {
+      transactionIndex = selectedTransactions.transactions.indexOf(
+        transactionId
+      );
+      console.log(`trnasaction Index => ${transactionIndex}`);
+      newTransactions = selectedTransactions.transactions;
+
+      newTransactions.splice(transactionIndex, 1);
+      setSelectedTransactions({ transactions: newTransactions });
+    } else {
+      setSelectedTransactions({
+        transactions: [...selectedTransactions.transactions, transactionId],
+      });
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -298,7 +345,12 @@ export default function TransactionTable(props) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          transactions={selectedTransactions}
+          dispatch={props.dispatch}
+          setSelectedTransactions={setSelectedTransactions}
+        />
         <TableContainer>
           <Table
             className={classes.table}
@@ -348,7 +400,6 @@ export default function TransactionTable(props) {
                       </TableCell>
                       <TableCell align="left">{row.expenseType}</TableCell>
                       <TableCell align="left">{row.cost}</TableCell>
-                      
                     </TableRow>
                   );
                 })}

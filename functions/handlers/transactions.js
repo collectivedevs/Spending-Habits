@@ -10,10 +10,17 @@ exports.getAllTransactions = (req, res) => {
     .then(data => {
       let transactions = [];
       data.forEach(doc => {
+
+        let type = " ";
+
+        if(doc.data().type) type = doc.data().type;
+
+        if(doc.data().expenseType) type = doc.data().expenseType;
+
         transactions.push({
          //...doc.data() <- this is an alternative method of getting the same data once all have same name that is
           transactionId: doc.id,
-          expenseType: doc.data().type,
+          expenseType: type,
           cost: doc.data().cost,
           createdAt: doc.data().createdAt
         });
@@ -34,7 +41,7 @@ exports.createTransaction = (req, res) => {
   }
 
   const newTransaction = {
-    expenseType: req.body.expenseType,
+    type: req.body.expenseType,
     cost: req.body.cost,
     createdAt: new Date().toISOString(),
     username: req.user.username

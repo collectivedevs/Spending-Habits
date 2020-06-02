@@ -76,7 +76,7 @@ class login extends Component {
       password: this.state.password,
     };
 
-    const [ {}, dispatch ] = this.context;
+    const [ , dispatch ] = this.context;
 
     loginUser(userData, this.props.history, dispatch);
   };
