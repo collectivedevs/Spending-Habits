@@ -9,11 +9,11 @@ export const loginUser = (userData, history, dispatch) => {
     .post("/login", userData)
     .then(res => {
       setAuthorizationHeader(res.data.token);
-      getUserData();
+      getUserData(dispatch);
       dispatch({ type: CLEAR_ERRORS });
 
       // This is a method of pushing state and redirecting to it
-      history.push("/");
+      history.push("/home");
     })
     .catch(err => {
       dispatch({
@@ -23,7 +23,7 @@ export const loginUser = (userData, history, dispatch) => {
     });
 };
 
-export const getUserData = () => dispatch => {
+export const getUserData = (dispatch) => {
     dispatch({ type: LOADING_USER });
     axios
       .get("/user")
@@ -42,10 +42,10 @@ export const getUserData = () => dispatch => {
       .post("/signup", newUserData)
       .then(res => {
         setAuthorizationHeader(res.data.token);
-        dispatch(getUserData());
+        dispatch(getUserData(dispatch));
         dispatch({ type: CLEAR_ERRORS });
         // This is a method of pushing state and redirecting to it
-        history.push("/");
+        history.push("/profile");
       })
       .catch(err => {
         dispatch({
@@ -55,14 +55,24 @@ export const getUserData = () => dispatch => {
       });
   };
 
-export const logoutUser = () => dispatch => {
+  export const uploadImage = (formData, dispatch) => {
+    dispatch({ type: LOADING_USER });
+    axios
+      .post("/user/image", formData)
+      .then(() => {
+        getUserData(dispatch);
+      })
+      .catch(err => console.log(err));
+  };
+
+export const logoutUser = (dispatch) => {
     
     localStorage.removeItem("FBIdToken");
     delete axios.defaults.headers.common["Authorization"];
     dispatch({ type: SET_UNAUTHENTICATED });
   };
 
-const setAuthorizationHeader = token => {
+export const setAuthorizationHeader = token => {
   const FBIdToken = `Bearer ${token}`;
   localStorage.setItem("FBIdToken", FBIdToken);
   axios.defaults.headers.common["Authorization"] = FBIdToken;

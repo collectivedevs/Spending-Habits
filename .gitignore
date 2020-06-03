@@ -67,3 +67,6 @@ node_modules/
 # Firebase Keys
 functions/util/config.js
 
+# Package-lock 
+functions/package-lock.json
+

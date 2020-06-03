@@ -17,7 +17,6 @@ import { signupUser } from "../actions/userAction";
 
 import Navbar from "../components/layouts/Navbar";
 
-
 const styles = theme => ({
   // We use the styles object in the theme which holds all the styling except palette - https://stackoverflow.com/questions/56897838/getting-a-error-typeerror-color-charat-is-not-a-function-in-c-node-modul
   ...theme.styles
@@ -85,7 +84,7 @@ class signup extends Component {
       firstName: this.state.firstName,
       lastName: this.state.lastName
     };
-    const [ {ui:{loading}}, dispatch ] = this.context;
+    const [ , dispatch ] = this.context;
     signupUser(newUserData, this.props.history, dispatch);
   };
 
@@ -105,14 +104,56 @@ class signup extends Component {
     return (
       <Fragment>
         <Navbar />
-        <Grid container className={classes.form}>
-          <Grid item sm />
-          <Grid item sm>
-            <img src={AppIcon} alt="Logo" className={classes.logo} />
-            <Typography variant="h2" className={classes.pageTitle}>
-              Sign Up
-            </Typography>
-            <form noValidate onSubmit={this.handleSubmit}>
+      <Grid container className={classes.form}>
+        <Grid item sm />
+        <Grid item sm>
+          <img src={AppIcon} alt="Logo" className={classes.logo} />
+          <Typography variant="h2" className={classes.pageTitle}>
+            Sign Up
+          </Typography>
+          <form noValidate onSubmit={this.handleSubmit}>
+
+          <TextField
+              color="secondary"
+              id="username"
+              name="username"
+              type="text"
+              label="Username"
+              className={classes.TextField}
+              helperText={errors.username}
+              error={errors.username ? true : false}
+              value={this.state.username}
+              onChange={this.handleChange}
+              fullWidth
+            />
+
+            <TextField
+              color="secondary"
+              id="firstName"
+              name="firstName"
+              type="text"
+              label="first name"
+              className={classes.TextField}
+              helperText={errors.firstName}
+              error={errors.firstName ? true : false}
+              value={this.state.firstName}
+              onChange={this.handleChange}
+              fullWidth
+            />
+
+            <TextField
+              color="secondary"
+              id="lastName"
+              name="lastName"
+              type="text"
+              label="last name"
+              className={classes.TextField}
+              helperText={errors.lastName}
+              error={errors.lastName ? true : false}
+              value={this.state.lastName}
+              onChange={this.handleChange}
+              fullWidth
+            />
 
             <TextField
                 color="secondary"

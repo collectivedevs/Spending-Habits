@@ -55,6 +55,9 @@ export default {
       paper: {
         padding: 20
       },
+      expenseType: {
+        paddingTop: 10.6
+      },
       profile: {
         "& .image-wrapper": {
           textAlign: "center",
