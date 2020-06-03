@@ -129,9 +129,10 @@ class Profile extends Component {
               >
                 @{username}
               </MuiLink>
-             
+             {/*
             <hr />
             <MoneyIcon color="primary" /> <span> Budget : {budget && <Typography variant="body2">{budget}</Typography>} </span>
+             */}
             <hr />
             <CalendarToday color="primary" />  <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
        

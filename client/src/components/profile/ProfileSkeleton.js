@@ -48,8 +48,10 @@ const ProfileSkeleton = props => {
             <div className={classes.fullLine} />
             <div className={classes.fullLine} />
             <hr />
+            {/*
             <MoneyIcon color="primary" /> <span> Budget $ </span>
             <hr />
+            */}
             <CalendarToday color="primary" /> <span>Joined Date</span>
           </div>
         </div>
