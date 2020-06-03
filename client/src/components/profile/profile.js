@@ -99,7 +99,7 @@ class Profile extends Component {
     ] = this.context;
 
     let profileMarkup = !loading ? (
-      authenticated ? (
+     
         <Paper className={classes.paper}>
           <div className={classes.profile}>
             <div className="image-wrapper">
@@ -134,40 +134,11 @@ class Profile extends Component {
             <MoneyIcon color="primary" /> <span> Budget : {budget && <Typography variant="body2">{budget}</Typography>} </span>
             <hr />
             <CalendarToday color="primary" />  <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
-     
-          
+       
             </div>
-
-            <CustomButton tip="Logout" onClick={this.handleLogout}>
-              <KeyboardReturn color="primary" />
-            </CustomButton>
+    
           </div>
         </Paper>
-      ) : (
-        <Paper className={classes.paper}>
-          <Typography variant="body2" align="center">
-            No profile found, please login again
-          </Typography>
-          <div className={classes.buttons}>
-            <Button
-              variant="contained"
-              color="primary"
-              component={Link}
-              to="/login"
-            >
-              Login
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              component={Link}
-              to="/signup"
-            >
-              Signup
-            </Button>
-          </div>
-        </Paper>
-      )
     ) : (
       <ProfileSkeleton />
     );
