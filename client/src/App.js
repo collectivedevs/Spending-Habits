@@ -4,7 +4,6 @@ import "./App.css";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import themeFile from "./util/theme";
-import Landing from "./pages/Landing";
 
 // Components
 import AuthRoute from "./util/AuthRoute";
@@ -12,9 +11,10 @@ import Transactions from "./components/transactions/transactions";
 import Profile from "./components/profile/profile";
 
 // Pages
-import home from "./pages/home";
+import Landing from './pages/Landing'
 import login from "./pages/login";
 import signup from "./pages/signup";
+import home from "./pages/home";
 
 // Contexts
 import { Provider } from "./contexts/userContext";

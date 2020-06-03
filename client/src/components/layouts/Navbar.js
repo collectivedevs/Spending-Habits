@@ -15,8 +15,17 @@ const Link = require("react-router-dom").Link;
 class Navbar extends Component {
   render() {
     const { authenticated } = this.props;
+
+    const buttonText = {
+      color: '#FFF',
+      fontSize: '15px',
+      fontWeight: 'bold',
+      letterSpacing: '1px',
+      textShadow: '0px 1px 2px #000',
+    };
+
     return (
-      <AppBar>
+      <AppBar className="appbar-gradient">
         <Toolbar className="nav-container">
           {authenticated ? (
             <Fragment>
@@ -30,13 +39,13 @@ class Navbar extends Component {
             </Fragment>
           ) : (
             <Fragment>
-              <Button color="inherit" component={Link} to="/login">
-                Login
-              </Button>
-              <Button color="inherit" component={Link} to="/">
+              <Button style={buttonText} component={Link} to="/">
                 Home
               </Button>
-              <Button color="inherit" component={Link} to="/signup">
+              <Button style={buttonText} component={Link} to="/login">
+                Login
+              </Button>
+              <Button style={buttonText} component={Link} to="/signup">
                 Signup
               </Button>
             </Fragment>

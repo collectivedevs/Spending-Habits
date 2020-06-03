@@ -1,40 +1,22 @@
-import React, { Component, Fragment } from "react";
-import TopNav from "../components/layouts/TopNav";
-import DescriptionFeatures from "../components/layouts/DescriptionFeatures";
-import Developers from "../components/layouts/Developers";
-import MouseCircle from "../components/layouts/MouseCircle";
+import React, { Fragment } from 'react'
+import TopNav from '../components/layouts/TopNav'
+import Features from '../components/layouts/Features'
+import VisionMission from '../components/layouts/VisionMission'
+import Founders from '../components/layouts/Founders'
+import ContactUs from '../components/layouts/ContactUs'
+import ToTop from '../components/buttons/ToTop'
 
-class Landing extends Component {
-  componentDidMount() {
-    document.addEventListener("mousemove", (e) => {
-      let x = e.clientX - 10;
-      let y = e.clientY - 6;
-      let circle = document.querySelector("div[class*='mouse_circle']");
-
-     
-      if (x + 30 <= window.innerWidth && y + 30 <= window.innerHeight) {
-        circle.style.opacity = "100";
-      }
-      else { 
-          circle.style.opacity = "0";
-      }
-
-      if (x + 30 <= window.innerWidth) circle.style.left = x + "px";
-      if (y + 30 <= window.innerHeight) circle.style.top = y + "px";
-    
-    });
-  }
-
-  render() {
+function Landing() {
     return (
-      <Fragment>
-        <TopNav />
-        <DescriptionFeatures />
-        <Developers />
-        <MouseCircle />
-      </Fragment>
-    );
-  }
+        <Fragment>
+            <TopNav />
+            <Features />
+            <VisionMission />
+            <Founders />
+            <ContactUs />
+            <ToTop />
+        </Fragment>
+    )
 }
 
-export default Landing;
+export default Landing
