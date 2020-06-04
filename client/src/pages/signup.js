@@ -155,48 +155,6 @@ class signup extends Component {
               fullWidth
             />
 
-            <TextField
-                color="secondary"
-                id="username"
-                name="username"
-                type="text"
-                label="Username"
-                className={classes.TextField}
-                helperText={errors.username}
-                error={errors.username ? true : false}
-                value={this.state.username}
-                onChange={this.handleChange}
-                fullWidth
-              />
-
-              <TextField
-                color="secondary"
-                id="firstName"
-                name="firstName"
-                type="text"
-                label="First Name"
-                className={classes.TextField}
-                helperText={errors.firstName}
-                error={errors.firstName ? true : false}
-                value={this.state.firstName}
-                onChange={this.handleChange}
-                fullWidth
-              />
-
-              <TextField
-                color="secondary"
-                id="lastName"
-                name="lastName"
-                type="text"
-                label="Last Name"
-                className={classes.TextField}
-                helperText={errors.lastName}
-                error={errors.lastName ? true : false}
-                value={this.state.lastName}
-                onChange={this.handleChange}
-                fullWidth
-              />
-
               <TextField
                 color="secondary"
                 id="email"
