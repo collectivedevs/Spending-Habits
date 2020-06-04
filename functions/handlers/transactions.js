@@ -13,9 +13,13 @@ exports.getAllTransactions = (req, res) => {
 
         let type = " ";
 
-        if(doc.data().type) type = doc.data().type;
+        if(doc.data().type) {
+           type = doc.data().type;
+        }
 
-        if(doc.data().expenseType) type = doc.data().expenseType;
+        if(doc.data().expenseType) {
+           type = doc.data().expenseType;
+        }
 
         transactions.push({
          //...doc.data() <- this is an alternative method of getting the same data once all have same name that is
@@ -41,7 +45,7 @@ exports.createTransaction = (req, res) => {
   }
 
   const newTransaction = {
-    type: req.body.expenseType,
+    expenseType: req.body.expenseType,
     cost: req.body.cost,
     createdAt: new Date().toISOString(),
     username: req.user.username

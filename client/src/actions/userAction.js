@@ -37,17 +37,20 @@ export const getUserData = (dispatch) => {
   };
 
   export const signupUser = (newUserData, history, dispatch) => {
+
     dispatch({ type: LOADING_UI });
+
     axios
       .post("/signup", newUserData)
       .then(res => {
         setAuthorizationHeader(res.data.token);
-        dispatch(getUserData(dispatch));
+        getUserData(dispatch);
         dispatch({ type: CLEAR_ERRORS });
         // This is a method of pushing state and redirecting to it
-        history.push("/profile");
+        history.push("/home");
       })
       .catch(err => {
+        
         dispatch({
           type: SET_ERRORS,
           payload: err.response.data
