@@ -79,6 +79,10 @@ const useStyles = makeStyles(theme => ({
 function MenuButton({ toggleDropdown, open }) {
     const classes = useStyles()
 
+    /*
+        This function creates a ripple efect when the button is clicked
+        @param e - Holds the mouse click event
+    */
     const ripple = e => {
         // Setup
         let posX = $('#menubutton').offset().left

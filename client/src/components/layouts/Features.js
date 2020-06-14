@@ -63,6 +63,7 @@ const useStyles = makeStyles(theme => ({
 function DescriptionFeatures() {
     const classes = useStyles()
 
+    // This useEffect plays a background slideshow
     useEffect(() => {
         let images = [classes.img_1, classes.img_2, classes.img_3, classes.img_4, classes.img_5]
         let i = 1
