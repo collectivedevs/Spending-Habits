@@ -89,12 +89,17 @@ function TopNav() {
     const [open, setOpen] = React.useState(false)
     const openRef = React.useRef(open)
 
+    // Opens or Closes the dropdown
     const toggleDropdown = () => {
         openRef.current = !openRef.current
         setOpen(openRef.current)
         $(`.${classes.list}`).toggleClass(classes.list_appear)
     }
 
+    /*
+        This function closes the dropdown on click away
+        @param e - Holds the mouse click event
+    */
     const closeOnClick = e => {
         let position = document.getElementsByClassName(classes.list)[0].offsetLeft
         let id = e.target.id

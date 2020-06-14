@@ -255,6 +255,10 @@ function Founders() {
     const numImgs = (3 - 1)
     const [index, setIndex] = React.useState(0)
 
+    /*
+        This function switches the images in the slideshow
+        @param value - Holds the index of the image to switch to
+    */
     const switchImage = value => {
         // Change Image
         $('#founders-images').css({left: (0 - (value * 100)) + '%'})
@@ -295,16 +299,22 @@ function Founders() {
         }
     }
     
+    // This function unhides the seek point
     const mouseEnter = () => {
         $(`.${classes.seek_point}`).removeClass(classes.display_none)
     }
 
+    // This function hides the seek point, seek hover bar and founder's hover name
     const mouseLeave = () => {
         $(`.${classes.seek_point}`).addClass(classes.display_none)
         $(`.${classes.seek_hover}`).css({width: 0})
         $(`.${classes.hover_name}`).addClass(classes.display_none)
     }
 
+    /*
+        This function unhides the founder's hover name and moves it
+        @param e - Holds the mouse move event
+    */
     const moveHoverName = e => {
         $(`.${classes.hover_name}`).removeClass(classes.display_none)
 
@@ -328,11 +338,19 @@ function Founders() {
         $(`.${classes.hover_name}`).css({left: left + 'px'})
     }
 
+    /*
+        This function moves the seek hover bar
+        @param e - Holds the mouse move event
+    */
     const mouseMoveA = e => {
         $(`.${classes.seek_hover}`).css({width: (e.clientX - 18) + 'px'})
         moveHoverName(e)
     }
 
+    /*
+        This function switches the images in the slideshow
+        @param e - Holds the mouse moe event
+    */
     const slideShow = e => {
         let x = e.clientX - 18
 
@@ -392,6 +410,11 @@ function Founders() {
         }
     }
 
+    /*
+        This function adds mouse move event listeners to the for seeking bar and seek bar padding
+        It also removes the transition animations from the images, seek progess and seek point
+        @param e - Holds the mouse down event
+    */
     const mouseDown = e => {
         document.getElementsByClassName(classes.for_seeking)[0].addEventListener('mousemove', mouseMoveB)
         document.getElementsByClassName(classes.seek_bar_padding)[0].addEventListener('mousemove', mouseMoveB)
@@ -403,12 +426,22 @@ function Founders() {
         slideShow(e)
     }
 
+    /*
+        This function unhides the seek point
+        @param e - Holds the mouse move event
+    */
     const mouseMoveB = e => {
         $(`.${classes.seek_point}`).removeClass(classes.display_none)
         moveHoverName(e)
         slideShow(e)
     }
 
+    /*
+        This function removes the mouse move event listeners from the for seeking bar and seek bar padding;
+        it also adds back the transition animations to the images, seek progess and seek point;
+        it also hides the seek point and hover name; When the mouse (while down) is moved out of the seek padding area
+        @param e - Holds the mouse down event
+    */
     const reset = e => {
         if ((e.clientX > (window.innerWidth - 11)) || (e.clientY < (window.innerHeight - 105))) {
             document.getElementsByClassName(classes.for_seeking)[0].removeEventListener('mousemove', mouseMoveB)
@@ -422,6 +455,7 @@ function Founders() {
         }
     }
 
+    // This function does the same thing as reset() when the mouse up event is fired
     const mouseUp = () => {
         document.getElementsByClassName(classes.for_seeking)[0].removeEventListener('mousemove', mouseMoveB)
         document.getElementsByClassName(classes.seek_bar_padding)[0].removeEventListener('mousemove', mouseMoveB)
@@ -432,6 +466,7 @@ function Founders() {
         $(`.${classes.hover_name}`).addClass(classes.display_none)
     }
 
+    // This function hides the seek point
     const hideSeekPoint = () => {
         $(`.${classes.seek_point}`).addClass(classes.display_none)
     }

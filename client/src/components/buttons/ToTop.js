@@ -25,11 +25,13 @@ const useStyles = makeStyles(theme => ({
 function ToTop() {
     const classes = useStyles()
 
+    // This function scrolls the page to the top
     const toTop = () => {
         document.body.scrollTop = 0
         document.documentElement.scrollTop = 0
     }
 
+    // This function hides or unhides the ToTop button depending on the current scroll position
     const onScroll = () => {
         if (document.body.scrollTop >= 60 || document.documentElement.scrollTop >= 60) {
             $(`.${classes.button}`).removeClass(classes.display_none)
