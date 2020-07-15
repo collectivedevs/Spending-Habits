@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { TextField, Fab } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -98,6 +98,53 @@ const useStyles = makeStyles(theme => ({
 
 function ContactUs() {
     const classes = useStyles()
+    const [message, setMessage] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+
+
+    function handleChange(event) {
+        console.log("went in handleChange()");
+      
+          switch(event.target.name) {
+              case "firstName":
+                  setFirstName(event.target.value);
+                  break;
+              case "lastName":
+                  setLastName(event.target.value);
+                  break;
+              case "email":
+                  setEmail(event.target.value);
+                  break;
+              case "message":
+                  setMessage(event.target.value);
+                  break;
+              default:
+                  console.log("handleChange did not get a value");
+                  break;
+      
+          }
+           // [event.target.name]: event.target.value,
+        
+        };
+      
+      function handleSubmit (event) {
+          const templateId = 'template_7BZOQzJS';
+      
+          sendFeedback(templateId, {message_html: message, from_name: firstName + " " + lastName, reply_to: email, to_name: "Collective Devs"})
+        }
+      
+      function sendFeedback (templateId, variables) {
+          window.emailjs.send(
+            'gmail', templateId,
+            variables
+            ).then(res => {
+              console.log('Email successfully sent!')
+            })
+            // Handle errors here however you like, or use a React error boundary
+            .catch(err => console.error('Oh well, you failed. Here some thoughts on the error that occured:', err))
+        }
 
     return (
         <div id="contact-us" className={classes.contact_us_wrapper}>
@@ -112,24 +159,26 @@ function ContactUs() {
             <form className={classes.form_wrapper}>
                 <h3 className={classes.form_title}>Contact Us</h3>
                 <div className={classes.form_field}>
-                    <TextField id="first-name" label="First Name" className={classes.text_field} />
+                    <TextField id="first-name" label="First Name" className={classes.text_field} onChange={handleChange} name="firstName" />
                 </div>
                 <div className={classes.form_field}>
-                    <TextField id="last-name" label="Last Name" className={classes.text_field} />
+                    <TextField id="last-name" label="Last Name" className={classes.text_field} onChange={handleChange} name="lastName"/>
                 </div>
                 <div className={classes.form_field}>
-                    <TextField id="email" label="Email Address" className={classes.text_field} />
+                    <TextField id="email" label="Email Address" className={classes.text_field} onChange={handleChange} name="email"/>
                 </div>
                 <div className={classes.form_field}>
                     <TextField
                         id="message"
                         label="Message"
+                        name="message"
+                        onChange={handleChange}
                         className={classes.text_field}
                         multiline
                         rowsMax={4}
                     />
                 </div>
-                <Fab variant="extended" color="primary" className={classes.submit}>
+                <Fab variant="extended" color="primary" className={classes.submit} onClick={handleSubmit}>
                     <FontAwesomeIcon icon={faPaperPlane} className={classes.icon} />
                     Submit
                 </Fab>
@@ -153,5 +202,6 @@ function ContactUs() {
         </div>
     )
 }
+
 
 export default ContactUs
