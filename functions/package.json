@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "firebase-functions-test": "^0.1.6",
-    "mocha": "^7.1.2"
+    "mocha": "^10.2.0"
   },
   "private": true
 }
